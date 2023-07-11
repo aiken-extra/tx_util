@@ -3,7 +3,7 @@
 A utility library help constructing `ScriptContext`, useful for testing.
 
 For example,
-```
+```gleam
 use tx_util/builder.{
     build_txn_context,
     mint_assets,
@@ -12,7 +12,8 @@ use tx_util/builder.{
     add_tx_output,
     add_signatory
 }
-
+```
+```gleam
 test validate_something() {
   ...
   let ctx =
@@ -30,7 +31,7 @@ test validate_something() {
 }
 ```
 Where,
-```
+```gleam
 // aiken/transaction/value
 minted_assets = to_minted_value(assets)
 
