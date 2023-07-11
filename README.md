@@ -1,2 +1,56 @@
 # tx_util
-A utility library help constructing ScriptContext
+
+A utility library help constructing `ScriptContext`, useful for testing.
+
+For example,
+```
+use tx_util/builder.{
+    build_txn_context,
+    mint_assets,
+    add_tx_ref_input,
+    add_tx_input,
+    add_tx_output,
+    add_signatory
+}
+
+test validate_something() {
+  ...
+  let ctx =
+    after(now) // aiken/interval.{after}
+      |> build_txn_context()
+      |> mint_assets("PolicyID", minted_assets)
+      |> add_tx_ref_input(tx_ref_in)
+      |> add_tx_input(tx_in_1)
+      |> add_tx_input(tx_in_2)
+      |> add_tx_output(tx_out_1)
+      |> add_tx_output(tx_out_2)
+      |> add_signatory("Signer")
+  ...
+  validator(..., ..., ctx)
+}
+```
+Where,
+```
+// aiken/transaction/value
+minted_assets = to_minted_value(assets)
+
+// tx_util/builder
+tx_ref_in = new_tx_input(...)
+      |> with_asset_of_tx_input(asset)
+
+// tx_util/builder.{new_tx_input}
+tx_in_1 = new_tx_input(...)
+
+// tx_util/builder.{with_asset_of_tx_input}
+tx_in_2 = new_tx_input(...)
+      |> with_asset_of_tx_input(asset1)
+      |> with_asset_of_tx_input(asset2)
+
+// tx_util/builder.{new_tx_output}
+tx_out_1 = new_tx_output(...)
+
+// tx_util/builder.{add_asset_to_tx_output}
+tx_out_2 = new_tx_output(...)
+      |> add_asset_to_tx_output(asset1)
+      |> add_asset_to_tx_output(asset2)
+```

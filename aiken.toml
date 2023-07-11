@@ -1,0 +1,14 @@
+name = "ariady-putra/tx_util"
+version = "0.0.0"
+license = "Apache-2.0"
+description = "Aiken contracts for project 'ariady-putra/tx_util'"
+
+[repository]
+user = "ariady-putra"
+project = "tx_util"
+platform = "github"
+
+[[dependencies]]
+name = "aiken-lang/stdlib"
+version = "main"
+source = "github"
