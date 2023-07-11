@@ -1,10 +1,10 @@
-name = "ariady-putra/tx_util"
+name = "aiken-extra/tx_util"
 version = "0.0.0"
 license = "Apache-2.0"
-description = "Aiken contracts for project 'ariady-putra/tx_util'"
+description = "A utility library help constructing ScriptContext"
 
 [repository]
-user = "ariady-putra"
+user = "aiken-extra"
 project = "tx_util"
 platform = "github"
 
