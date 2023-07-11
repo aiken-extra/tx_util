@@ -1,6 +1,6 @@
 # tx_util
 
-A utility library help constructing `ScriptContext`, useful for testing.
+A utility library to help constructing `ScriptContext`, useful for testing.
 
 For example,
 ```gleam
