@@ -146,13 +146,13 @@
       <h2>
         <a href="./">tx_util</a>
         <span id="project-version">
-          <span>v0.0.0 </span>
+          <span>v1.130.1011-alpha </span>
         </span>
         <script>
           "use strict";
 
           if ("undefined" !== typeof versionNodes) {
-            const currentVersion = "v0.0.0";
+            const currentVersion = "v1.130.1011-alpha";
             if (
               !versionNodes.find(
                 (element) => element.version === currentVersion
@@ -258,7 +258,40 @@
           A utility library to help constructing <code>ScriptContext</code>,
           useful for testing.
         </p>
-        <p>For example,</p>
+        <table>
+          <thead>
+            <tr>
+              <th>ℹ️</th>
+              <th>Package name and version</th>
+              <th>aiken-extra/tx_util v1.130.1011-alpha</th>
+              <th>🧪</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🟢</td>
+              <td><strong>Depends on</strong></td>
+              <td><strong>aiken-lang/stdlib v1.3.0</strong></td>
+              <td>✔️</td>
+            </tr>
+            <tr>
+              <td>🟢</td>
+              <td><strong>Compatible with</strong></td>
+              <td><strong>aiken v1.0.11-alpha</strong></td>
+              <td>✔️</td>
+            </tr>
+            <tr>
+              <td>⚠️</td>
+              <td><strong>Incompatible with</strong></td>
+              <td>
+                <strong>aiken v1.0.12-alpha</strong
+                ><sup class="footnote-reference"><a href="#x">1</a></sup>
+              </td>
+              <td>❌</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>Usage Example</h2>
         <pre><code>use tx_util/builder.{
     build_txn_context,
     mint_assets,
@@ -308,6 +341,17 @@ tx_out_2 = new_tx_output(...)
       |&gt; add_asset_to_tx_output(asset1)
       |&gt; add_asset_to_tx_output(asset2)
 </code></pre>
+        <hr />
+        <div class="footnote-definition" id="x">
+          <sup class="footnote-definition-label">1</sup>
+          <p>
+            Some issues with <code>trace</code>, <code>todo</code>, and
+            <code>error</code>/<code>fail</code> (<a
+              href="https://github.com/aiken-lang/aiken/issues/675"
+              >https://github.com/aiken-lang/aiken/issues/675</a
+            >)
+          </p>
+        </div>
       </main>
       <div class="search-overlay"></div>
     </div>
@@ -465,8 +509,8 @@ tx_out_2 = new_tx_output(...)
       });
     </script>
     <script src="./js/lunr.min.js?v=1.0.11-alpha"></script>
-    <script src="./js/index.js?v=1689060472"></script>
+    <script src="./js/index.js?v=1689405639"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="./search-data.js?v=1689060472"></script>
+    <script src="./search-data.js?v=1689405639"></script>
   </body>
 </html>
