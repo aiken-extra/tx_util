@@ -2,7 +2,15 @@
 
 A utility library to help constructing `ScriptContext`, useful for testing.
 
-For example,
+| ℹ️ | Package name and version | aiken-extra/tx_util v1.130.1011-alpha | ✔️ |
+|----|--------------------------|---------------------------------------|---|
+| 🟢 | **Depends on**           | **aiken-lang/stdlib v1.3.0**          | ✔️ |
+| 🟢 | **Compatible with**      | **aiken v1.0.11-alpha**               | ✔️ |
+| ⚠️ | **Incompatible with**     | **aiken v1.0.12-alpha**[^x]          | ❌ |
+[^x]: Some issues with `trace`, `todo`, and `error`/`fail` (<https://github.com/aiken-lang/aiken/issues/675>)
+
+## Usage Example
+
 ```gleam
 use tx_util/builder.{
     build_txn_context,
@@ -30,6 +38,7 @@ test validate_something() {
   validator(..., ..., ctx)
 }
 ```
+
 Where,
 ```gleam
 // aiken/transaction/value
