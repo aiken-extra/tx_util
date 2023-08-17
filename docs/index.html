@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#eff1f5" media="(prefers-color-scheme: light)"/>
     <meta name="theme-color" content="#1e1e2e" media="(prefers-color-scheme: dark)"/>
     <link rel="icon" type="image/svg+xml" sizes="any" href="./favicon.svg"/>
-    <link rel="stylesheet" href="./css/index.css?v=1.0.13-alpha" type="text/css"/>
-    <link id="syntax-theme" rel="stylesheet" href="./css/atom-one-light.min.css?v=1.0.13-alpha"/>
+    <link rel="stylesheet" href="./css/index.css?v=1.0.14-alpha" type="text/css"/>
+    <link id="syntax-theme" rel="stylesheet" href="./css/atom-one-light.min.css?v=1.0.14-alpha"/>
   </head>
   <body class="prewrap-off theme-light drawer-closed">
     <script>
@@ -120,13 +120,13 @@
       <h2>
         <a href="./">tx_util</a>
         <span id="project-version">
-          <span>v1.140.202308 </span>
+          <span>v1.150.202308 </span>
         </span>
         <script>
           "use strict";
 
           if ("undefined" !== typeof versionNodes) {
-            const currentVersion = "v1.140.202308";
+            const currentVersion = "v1.150.202308";
             if (! versionNodes.find(element => element.version === currentVersion)) {
               versionNodes.unshift({ version: currentVersion, url: "#" });
             }
@@ -205,12 +205,12 @@
         
 <h1>tx_util</h1>
 <p>A utility library to help constructing <code>ScriptContext</code>, useful for testing.</p>
-<table><thead><tr><th>ℹ️</th><th>Package info</th><th>aiken-extra/tx_util v1.140.202308</th><th>🪲</th></tr></thead><tbody>
-<tr><td>🟢</td><td><strong>Depends on</strong></td><td><strong>aiken-lang/stdlib v1.4.0</strong></td><td>✔️</td></tr>
-<tr><td>🟢</td><td><strong>Tested with</strong></td><td><strong><a href="https://github.com/aiken-lang/aiken/tree/4a1ae9f412041b573506084411bdedf50ed21f30">4a1ae9f412</a></strong></td><td>✔️</td></tr>
+<table><thead><tr><th>ℹ️</th><th>Package info</th><th>aiken-extra/tx_util v1.150.202308</th><th>🪲</th></tr></thead><tbody>
+<tr><td>🟢</td><td><strong>Depends on</strong></td><td><strong>aiken-lang/stdlib v1.5.0</strong></td><td>✔️</td></tr>
+<tr><td>🟢</td><td><strong>Tested with</strong></td><td><strong><a href="https://github.com/aiken-lang/aiken/tree/690e41261e8178b445e1dca4feb3b8788e11ce4a">690e41261e</a></strong></td><td>✔️</td></tr>
 </tbody></table>
 <h2>Usage Example</h2>
-<pre><code>use tx_util/builder.{
+<pre><code class="language-gleam">use tx_util/builder.{
     build_txn_context,
     mint_assets,
     add_tx_ref_input,
@@ -218,8 +218,8 @@
     add_tx_output,
     add_signatory
 }
-
-test validate_something() {
+</code></pre>
+<pre><code class="language-gleam">test validate_something() {
   ...
   let ctx =
     after(now) // aiken/interval.{after}
@@ -236,7 +236,7 @@ test validate_something() {
 }
 </code></pre>
 <p>Where,</p>
-<pre><code>// aiken/transaction/value
+<pre><code class="language-gleam">// aiken/transaction/value
 minted_assets = to_minted_value(assets)
 
 // tx_util/builder
@@ -310,13 +310,13 @@ tx_out_2 = new_tx_output(...)
       </defs>
     </svg>
 
-    <script src="./js/highlight.min.js?v=1.0.13-alpha"></script>
-    <script src="./js/highlightjs-aiken.js?v=1.0.13-alpha"></script>
+    <script src="./js/highlight.min.js?v=1.0.14-alpha"></script>
+    <script src="./js/highlightjs-aiken.js?v=1.0.14-alpha"></script>
     <script>
       document.querySelectorAll("pre code").forEach((elem) => {
-        if (elem.className === "") {
+        // if (elem.className === "") {
           elem.classList.add("aiken");
-        }
+        // }
       });
       hljs.highlightAll();
       document.querySelectorAll(".member-name > h2 > pre").forEach((el) => {
@@ -330,9 +330,9 @@ tx_out_2 = new_tx_output(...)
 	el.prepend(a);
       });
     </script>
-    <script src="./js/lunr.min.js?v=1.0.13-alpha"></script>
-    <script src="./js/index.js?v=1692115721"></script>
+    <script src="./js/lunr.min.js?v=1.0.14-alpha"></script>
+    <script src="./js/index.js?v=1692288243"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="./search-data.js?v=1692115721"></script>
+    <script src="./search-data.js?v=1692288243"></script>
   </body>
 </html>
