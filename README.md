@@ -2,10 +2,10 @@
 
 A utility library to help constructing `ScriptContext`, useful for testing.
 
-| ℹ️ | Package info    | aiken-extra/tx_util v1.140.202308 | 🪲 |
-|----|-----------------|---|---|
-| 🟢 | **Depends on**  | **aiken-lang/stdlib v1.4.0** | ✔️ |
-| 🟢 | **Tested with** | **[4a1ae9f412](https://github.com/aiken-lang/aiken/tree/4a1ae9f412041b573506084411bdedf50ed21f30)** | ✔️ |
+| ℹ️  | Package info    | aiken-extra/tx_util v1.150.202308                                                                   | 🪲  |
+| --- | --------------- | --------------------------------------------------------------------------------------------------- | --- |
+| 🟢  | **Depends on**  | **aiken-lang/stdlib v1.5.0**                                                                        | ✔️  |
+| 🟢  | **Tested with** | **[690e41261e](https://github.com/aiken-lang/aiken/tree/690e41261e8178b445e1dca4feb3b8788e11ce4a)** | ✔️  |
 
 ## Usage Example
 
@@ -19,6 +19,7 @@ use tx_util/builder.{
     add_signatory
 }
 ```
+
 ```gleam
 test validate_something() {
   ...
@@ -38,6 +39,7 @@ test validate_something() {
 ```
 
 Where,
+
 ```gleam
 // aiken/transaction/value
 minted_assets = to_minted_value(assets)
