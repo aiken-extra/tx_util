@@ -1,5 +1,5 @@
 name = "aiken-extra/tx_util"
-version = "1.150.202308e"
+version = "1.150.202308f"
 license = "Apache-2.0"
 description = "A Aiken utility library to help constructing ScriptContext"
 
