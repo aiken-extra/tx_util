@@ -217,6 +217,10 @@
   
   <li><a href="#add_tx_ref_input">add_tx_ref_input</a></li>
   
+  <li><a href="#attach_ref_script_to_tx_input">attach_ref_script_to_tx_input</a></li>
+  
+  <li><a href="#attach_ref_script_to_tx_output">attach_ref_script_to_tx_output</a></li>
+  
   <li><a href="#build_txn_context">build_txn_context</a></li>
   
   <li><a href="#mint_assets">mint_assets</a></li>
@@ -377,6 +381,40 @@
     </div>
     <div class="rendered-markdown"><p>Push <code>tx_ref_in</code> to <code>ScriptContext.transaction.reference_inputs</code></p>
 </div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="attach_ref_script_to_tx_input"><pre class="hljs language-aiken">attach_ref_script_to_tx_input(
+  input: transaction.Input,
+  ref_script: Option&lt;ValidatorHash&gt;,
+) -&gt; transaction.Input</pre></h2>
+      
+      <!-- TODO: support source linking
+      <a class="member-source" alt="View Source" title="View Source" href="#todo">
+        &lt;/&gt;
+      </a>
+      -->
+      
+    </div>
+    <div class="rendered-markdown"></div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="attach_ref_script_to_tx_output"><pre class="hljs language-aiken">attach_ref_script_to_tx_output(
+  output: transaction.Output,
+  ref_script: Option&lt;ValidatorHash&gt;,
+) -&gt; transaction.Output</pre></h2>
+      
+      <!-- TODO: support source linking
+      <a class="member-source" alt="View Source" title="View Source" href="#todo">
+        &lt;/&gt;
+      </a>
+      -->
+      
+    </div>
+    <div class="rendered-markdown"></div>
   </div>
   
   <div class="member">
@@ -544,8 +582,8 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
       });
     </script>
     <script src="../js/lunr.min.js?v=1.0.16-alpha"></script>
-    <script src="../js/index.js?v=1694201132"></script>
+    <script src="../js/index.js?v=1696419831"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="../search-data.js?v=1694201132"></script>
+    <script src="../search-data.js?v=1696419831"></script>
   </body>
 </html>
