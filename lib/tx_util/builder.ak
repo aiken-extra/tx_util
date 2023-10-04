@@ -223,7 +223,7 @@ pub fn new_tx_input(
 // Attach a reference script to a transaction input.
 pub fn attach_ref_script_to_tx_input(
   input: transaction.Input,
-  ref_script: Option<ValidatorHash>,
+  ref_script: ValidatorHash,
 ) -> transaction.Input {
   transaction.Input(
     input.output_reference,
@@ -231,7 +231,7 @@ pub fn attach_ref_script_to_tx_input(
       address: input.output.address,
       value: input.output.value,
       datum: input.output.datum,
-      reference_script: ref_script,
+      reference_script: Some(ref_script),
     },
   )
 }
@@ -295,13 +295,13 @@ pub fn new_tx_output(
 // Attach a reference script to a transaction output.
 pub fn attach_ref_script_to_tx_output(
   output: transaction.Output,
-  ref_script: Option<ValidatorHash>,
+  ref_script: ValidatorHash,
 ) -> transaction.Output {
   transaction.Output {
     address: output.address,
     value: output.value,
     datum: output.datum,
-    reference_script: ref_script,
+    reference_script: Some(ref_script),
   }
 }
 
