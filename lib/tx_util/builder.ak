@@ -101,6 +101,27 @@ pub fn build_txn_context(validity_range: Interval<PosixTime>) -> ScriptContext {
   )
 }
 
+// Manually set the Spending ScriptPurpose `OutputReference`
+pub fn spend(context: ScriptContext, o_ref: OutputReference) -> ScriptContext {
+  ScriptContext(
+    Transaction {
+      inputs: context.transaction.inputs,
+      reference_inputs: context.transaction.reference_inputs,
+      outputs: context.transaction.outputs,
+      fee: context.transaction.fee,
+      mint: context.transaction.mint,
+      certificates: context.transaction.certificates,
+      withdrawals: context.transaction.withdrawals,
+      validity_range: context.transaction.validity_range,
+      extra_signatories: context.transaction.extra_signatories,
+      redeemers: context.transaction.redeemers,
+      datums: context.transaction.datums,
+      id: context.transaction.id,
+    },
+    Spend(o_ref),
+  )
+}
+
 /// Set `ScriptPurpose.Mint(PolicyId)` = `policy_id`
 /// and `Transaction.MintedValue` = `assets`
 pub fn mint_assets(
