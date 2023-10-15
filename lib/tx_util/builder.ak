@@ -55,7 +55,7 @@ use aiken/transaction.{
   Datum, Mint, Output, OutputReference, ScriptContext, Spend, Transaction,
   TransactionId,
 }
-use aiken/transaction/credential.{Address, VerificationKey}
+use aiken/transaction/credential.{Address, Script, VerificationKey}
 use aiken/transaction/value.{
   MintedValue, PolicyId, Value, from_lovelace, merge, to_minted_value, zero,
 }
@@ -69,8 +69,8 @@ use aiken/transaction/value.{
 // type FlattenValues =
 //   List<FlattenValue>
 
-// type ValidatorHash =
-//   Hash<Blake2b_224, Script>
+type ValidatorHash =
+  Hash<Blake2b_224, Script>
 
 type PubKeyHash =
   Hash<Blake2b_224, VerificationKey>
@@ -98,6 +98,27 @@ pub fn build_txn_context(validity_range: Interval<PosixTime>) -> ScriptContext {
     Spend(
       OutputReference { transaction_id: TransactionId(""), output_index: 0 },
     ),
+  )
+}
+
+// Manually set the Spending ScriptPurpose `OutputReference`
+pub fn spend(context: ScriptContext, o_ref: OutputReference) -> ScriptContext {
+  ScriptContext(
+    Transaction {
+      inputs: context.transaction.inputs,
+      reference_inputs: context.transaction.reference_inputs,
+      outputs: context.transaction.outputs,
+      fee: context.transaction.fee,
+      mint: context.transaction.mint,
+      certificates: context.transaction.certificates,
+      withdrawals: context.transaction.withdrawals,
+      validity_range: context.transaction.validity_range,
+      extra_signatories: context.transaction.extra_signatories,
+      redeemers: context.transaction.redeemers,
+      datums: context.transaction.datums,
+      id: context.transaction.id,
+    },
+    Spend(o_ref),
   )
 }
 
@@ -220,6 +241,22 @@ pub fn new_tx_input(
   )
 }
 
+// Attach a reference script to a transaction input.
+pub fn attach_ref_script_to_tx_input(
+  input: transaction.Input,
+  ref_script: ValidatorHash,
+) -> transaction.Input {
+  transaction.Input(
+    input.output_reference,
+    Output {
+      address: input.output.address,
+      value: input.output.value,
+      datum: input.output.datum,
+      reference_script: Some(ref_script),
+    },
+  )
+}
+
 /// Add asset(s) to a transaction input.
 pub fn with_asset_of_tx_input(
   input: transaction.Input,
@@ -273,6 +310,19 @@ pub fn new_tx_output(
     value: lovelace |> from_lovelace,
     datum,
     reference_script: None,
+  }
+}
+
+// Attach a reference script to a transaction output.
+pub fn attach_ref_script_to_tx_output(
+  output: transaction.Output,
+  ref_script: ValidatorHash,
+) -> transaction.Output {
+  transaction.Output {
+    address: output.address,
+    value: output.value,
+    datum: output.datum,
+    reference_script: Some(ref_script),
   }
 }
 
