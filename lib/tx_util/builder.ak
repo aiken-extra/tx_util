@@ -104,7 +104,7 @@ pub fn build_txn_context(validity_range: Interval<PosixTime>) -> ScriptContext {
   )
 }
 
-/// Set `id` of `ScriptContext.transaction.id`
+/// Set `ScriptContext.transaction.id`
 pub fn set_id(context: ScriptContext, id: TransactionId) -> ScriptContext {
   ScriptContext(
     Transaction {
