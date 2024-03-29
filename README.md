@@ -2,11 +2,11 @@
 
 A utility library to help constructing `ScriptContext`, useful for testing.
 
-| ℹ️  | Package info    | aiken-extra/tx_util v1.170.202403                                                                   | 🪲  |
+| ℹ️  | Package info    | aiken-extra/tx_util v1.180.202403                                                                   | 🪲  |
 | --- | --------------- | --------------------------------------------------------------------------------------------------- | --- |
-| 🟢  | **Depends on**  | **aiken-lang/stdlib v1.7.0**                                                                        | ✔️  |
-| 🟢  | **Tested with** | **[c169596c76](https://github.com/aiken-lang/aiken/tree/c169596c7652d6e2c5d5e918f6a11bbbfcbed1da)** | ✔️  |
-                             
+| 🟢  | **Depends on**  | **aiken-lang/stdlib v1.8.0**                                                                        | ✔️  |
+| 🟢  | **Tested with** | **[21b1e29f09](https://github.com/aiken-lang/aiken/tree/21b1e29f0951db3574ffe714c06f3fcc5cd28d51)** | ✔️  |
+
 ## Usage Example
 
 ```gleam
