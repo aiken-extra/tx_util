@@ -430,10 +430,10 @@ pub fn insert_withdrawal(
       certificates: context.transaction.certificates,
       withdrawals: context.transaction.withdrawals
         |> insert(
-             key: withdrawal_key,
-             value: withdrawal_value,
-             compare: withdrawal_compare,
-           ),
+            key: withdrawal_key,
+            value: withdrawal_value,
+            compare: withdrawal_compare,
+          ),
       validity_range: context.transaction.validity_range,
       extra_signatories: context.transaction.extra_signatories,
       redeemers: context.transaction.redeemers,
@@ -462,11 +462,11 @@ pub fn insert_withdrawal_with(
       certificates: context.transaction.certificates,
       withdrawals: context.transaction.withdrawals
         |> insert_with(
-             key: withdrawal_key,
-             value: withdrawal_value,
-             with: withdrawal_with,
-             compare: withdrawal_compare,
-           ),
+            key: withdrawal_key,
+            value: withdrawal_value,
+            with: withdrawal_with,
+            compare: withdrawal_compare,
+          ),
       validity_range: context.transaction.validity_range,
       extra_signatories: context.transaction.extra_signatories,
       redeemers: context.transaction.redeemers,
@@ -524,10 +524,10 @@ pub fn union_withdrawal_with(
       withdrawals: [(withdrawal_key, withdrawal_value)]
         |> from_list(withdrawal_compare)
         |> union_with(
-             context.transaction.withdrawals,
-             withdrawal_with,
-             withdrawal_compare,
-           ),
+            context.transaction.withdrawals,
+            withdrawal_with,
+            withdrawal_compare,
+          ),
       validity_range: context.transaction.validity_range,
       extra_signatories: context.transaction.extra_signatories,
       redeemers: context.transaction.redeemers,
@@ -607,10 +607,10 @@ pub fn insert_redeemer(
       extra_signatories: context.transaction.extra_signatories,
       redeemers: context.transaction.redeemers
         |> insert(
-             key: redeemer_key,
-             value: redeemer_value,
-             compare: redeemer_compare,
-           ),
+            key: redeemer_key,
+            value: redeemer_value,
+            compare: redeemer_compare,
+          ),
       datums: context.transaction.datums,
       id: context.transaction.id,
     },
@@ -639,11 +639,11 @@ pub fn insert_redeemer_with(
       extra_signatories: context.transaction.extra_signatories,
       redeemers: context.transaction.redeemers
         |> insert_with(
-             key: redeemer_key,
-             value: redeemer_value,
-             with: redeemer_with,
-             compare: redeemer_compare,
-           ),
+            key: redeemer_key,
+            value: redeemer_value,
+            with: redeemer_with,
+            compare: redeemer_compare,
+          ),
       datums: context.transaction.datums,
       id: context.transaction.id,
     },
@@ -701,10 +701,10 @@ pub fn union_redeemer_with(
       redeemers: [(redeemer_key, redeemer_value)]
         |> from_list(redeemer_compare)
         |> union_with(
-             context.transaction.redeemers,
-             redeemer_with,
-             redeemer_compare,
-           ),
+            context.transaction.redeemers,
+            redeemer_with,
+            redeemer_compare,
+          ),
       datums: context.transaction.datums,
       id: context.transaction.id,
     },
@@ -807,11 +807,11 @@ pub fn insert_datum_with(
       redeemers: context.transaction.redeemers,
       datums: context.transaction.datums
         |> insert_with(
-             key: datum_key,
-             value: datum_value,
-             with: datum_with,
-             compare: datum_compare,
-           ),
+            key: datum_key,
+            value: datum_value,
+            with: datum_with,
+            compare: datum_compare,
+          ),
       id: context.transaction.id,
     },
     context.purpose,
