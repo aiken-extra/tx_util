@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#eff1f5" media="(prefers-color-scheme: light)"/>
     <meta name="theme-color" content="#1e1e2e" media="(prefers-color-scheme: dark)"/>
     <link rel="icon" type="image/svg+xml" sizes="any" href="../favicon.svg"/>
-    <link rel="stylesheet" href="../css/index.css?v=1.0.26-alpha" type="text/css"/>
-    <link id="syntax-theme" rel="stylesheet" href="../css/atom-one-light.min.css?v=1.0.26-alpha"/>
+    <link rel="stylesheet" href="../css/index.css?v=1.0.28-alpha" type="text/css"/>
+    <link id="syntax-theme" rel="stylesheet" href="../css/atom-one-light.min.css?v=1.0.28-alpha"/>
   </head>
   <body class="prewrap-off theme-light drawer-closed">
     <script>
@@ -120,13 +120,13 @@
       <h2>
         <a href="../">tx_util</a>
         <span id="project-version">
-          <span>v1.180.202403 </span>
+          <span>v1.190.202405 </span>
         </span>
         <script>
           "use strict";
 
           if ("undefined" !== typeof versionNodes) {
-            const currentVersion = "v1.180.202403";
+            const currentVersion = "v1.190.202405";
             if (! versionNodes.find(element => element.version === currentVersion)) {
               versionNodes.unshift({ version: currentVersion, url: "#" });
             }
@@ -225,24 +225,6 @@
   
   <li><a href="#build_txn_context">build_txn_context</a></li>
   
-  <li><a href="#delete_datum">delete_datum</a></li>
-  
-  <li><a href="#delete_redeemer">delete_redeemer</a></li>
-  
-  <li><a href="#delete_withdrawal">delete_withdrawal</a></li>
-  
-  <li><a href="#insert_datum">insert_datum</a></li>
-  
-  <li><a href="#insert_datum_with">insert_datum_with</a></li>
-  
-  <li><a href="#insert_redeemer">insert_redeemer</a></li>
-  
-  <li><a href="#insert_redeemer_with">insert_redeemer_with</a></li>
-  
-  <li><a href="#insert_withdrawal">insert_withdrawal</a></li>
-  
-  <li><a href="#insert_withdrawal_with">insert_withdrawal_with</a></li>
-  
   <li><a href="#mint_assets">mint_assets</a></li>
   
   <li><a href="#new_tx_input">new_tx_input</a></li>
@@ -260,18 +242,6 @@
   <li><a href="#set_withdrawals">set_withdrawals</a></li>
   
   <li><a href="#spend">spend</a></li>
-  
-  <li><a href="#union_datum">union_datum</a></li>
-  
-  <li><a href="#union_datum_with">union_datum_with</a></li>
-  
-  <li><a href="#union_redeemer">union_redeemer</a></li>
-  
-  <li><a href="#union_redeemer_with">union_redeemer_with</a></li>
-  
-  <li><a href="#union_withdrawal">union_withdrawal</a></li>
-  
-  <li><a href="#union_withdrawal_with">union_withdrawal_with</a></li>
   
   <li><a href="#with_asset_of_tx_input">with_asset_of_tx_input</a></li>
   
@@ -496,180 +466,6 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="delete_datum"><pre class="hljs language-aiken">delete_datum(context: ScriptContext, datum_key: ByteArray) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Delete <code>datum</code> from <code>ScriptContext.transaction.datums</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="delete_redeemer"><pre class="hljs language-aiken">delete_redeemer(
-  context: ScriptContext,
-  redeemer_key: ScriptPurpose,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Delete <code>redeemer</code> from <code>ScriptContext.transaction.redeemers</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="delete_withdrawal"><pre class="hljs language-aiken">delete_withdrawal(
-  context: ScriptContext,
-  withdrawal_key: StakeCredential,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Delete <code>withdrawal</code> from <code>ScriptContext.transaction.withdrawals</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="insert_datum"><pre class="hljs language-aiken">insert_datum(
-  context: ScriptContext,
-  datum_key: ByteArray,
-  datum_value: Data,
-  datum_compare: fn(ByteArray, ByteArray) -&gt; Ordering,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Insert <code>datum</code> to <code>ScriptContext.transaction.datums</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="insert_datum_with"><pre class="hljs language-aiken">insert_datum_with(
-  context: ScriptContext,
-  datum_key: ByteArray,
-  datum_value: Data,
-  datum_compare: fn(ByteArray, ByteArray) -&gt; Ordering,
-  datum_with: fn(ByteArray, Data, Data) -&gt; Option&lt;Data&gt;,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Insert <code>datum</code> with a merging function to <code>ScriptContext.transaction.datums</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="insert_redeemer"><pre class="hljs language-aiken">insert_redeemer(
-  context: ScriptContext,
-  redeemer_key: ScriptPurpose,
-  redeemer_value: Redeemer,
-  redeemer_compare: fn(ScriptPurpose, ScriptPurpose) -&gt; Ordering,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Insert <code>redeemer</code> to <code>ScriptContext.transaction.redeemers</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="insert_redeemer_with"><pre class="hljs language-aiken">insert_redeemer_with(
-  context: ScriptContext,
-  redeemer_key: ScriptPurpose,
-  redeemer_value: Redeemer,
-  redeemer_compare: fn(ScriptPurpose, ScriptPurpose) -&gt; Ordering,
-  redeemer_with: fn(ScriptPurpose, Redeemer, Redeemer) -&gt; Option&lt;Redeemer&gt;,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Insert <code>redeemer</code> with a merging function to <code>ScriptContext.transaction.redeemers</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="insert_withdrawal"><pre class="hljs language-aiken">insert_withdrawal(
-  context: ScriptContext,
-  withdrawal_key: StakeCredential,
-  withdrawal_value: Int,
-  withdrawal_compare: fn(StakeCredential, StakeCredential) -&gt; Ordering,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Insert <code>withdrawal</code> to <code>ScriptContext.transaction.withdrawals</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="insert_withdrawal_with"><pre class="hljs language-aiken">insert_withdrawal_with(
-  context: ScriptContext,
-  withdrawal_key: StakeCredential,
-  withdrawal_value: Int,
-  withdrawal_compare: fn(StakeCredential, StakeCredential) -&gt; Ordering,
-  withdrawal_with: fn(StakeCredential, Int, Int) -&gt; Option&lt;Int&gt;,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Insert <code>withdrawal</code> with a merging function to <code>ScriptContext.transaction.withdrawals</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
       <h2 id="mint_assets"><pre class="hljs language-aiken">mint_assets(
   context: ScriptContext,
   policy_id: PolicyId,
@@ -779,7 +575,7 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
     <div class="member-name">
       <h2 id="set_redeemers"><pre class="hljs language-aiken">set_redeemers(
   context: ScriptContext,
-  redeemers: Dict&lt;ScriptPurpose, Redeemer&gt;,
+  redeemers: Pairs&lt;ScriptPurpose, Redeemer&gt;,
 ) -&gt; ScriptContext</pre></h2>
       
       <!-- TODO: support source linking
@@ -797,7 +593,7 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
     <div class="member-name">
       <h2 id="set_withdrawals"><pre class="hljs language-aiken">set_withdrawals(
   context: ScriptContext,
-  withdrawals: Dict&lt;StakeCredential, Int&gt;,
+  withdrawals: Pairs&lt;StakeCredential, Int&gt;,
 ) -&gt; ScriptContext</pre></h2>
       
       <!-- TODO: support source linking
@@ -823,129 +619,6 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
       
     </div>
     <div class="rendered-markdown"></div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="union_datum"><pre class="hljs language-aiken">union_datum(
-  context: ScriptContext,
-  datum_key: ByteArray,
-  datum_value: Data,
-  datum_compare: fn(ByteArray, ByteArray) -&gt; Ordering,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Union <code>datum</code> to <code>ScriptContext.transaction.datums</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="union_datum_with"><pre class="hljs language-aiken">union_datum_with(
-  context: ScriptContext,
-  datum_key: ByteArray,
-  datum_value: Data,
-  datum_compare: fn(ByteArray, ByteArray) -&gt; Ordering,
-  datum_with: fn(ByteArray, Data, Data) -&gt; Option&lt;Data&gt;,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Union <code>datum</code> with a merging function to <code>ScriptContext.transaction.datums</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="union_redeemer"><pre class="hljs language-aiken">union_redeemer(
-  context: ScriptContext,
-  redeemer_key: ScriptPurpose,
-  redeemer_value: Redeemer,
-  redeemer_compare: fn(ScriptPurpose, ScriptPurpose) -&gt; Ordering,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Union <code>redeemer</code> to <code>ScriptContext.transaction.redeemers</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="union_redeemer_with"><pre class="hljs language-aiken">union_redeemer_with(
-  context: ScriptContext,
-  redeemer_key: ScriptPurpose,
-  redeemer_value: Redeemer,
-  redeemer_compare: fn(ScriptPurpose, ScriptPurpose) -&gt; Ordering,
-  redeemer_with: fn(ScriptPurpose, Redeemer, Redeemer) -&gt; Option&lt;Redeemer&gt;,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Union <code>redeemer</code> with a merging function to <code>ScriptContext.transaction.redeemers</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="union_withdrawal"><pre class="hljs language-aiken">union_withdrawal(
-  context: ScriptContext,
-  withdrawal_key: StakeCredential,
-  withdrawal_value: Int,
-  withdrawal_compare: fn(StakeCredential, StakeCredential) -&gt; Ordering,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Union <code>withdrawal</code> to <code>ScriptContext.transaction.withdrawals</code></p>
-</div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="union_withdrawal_with"><pre class="hljs language-aiken">union_withdrawal_with(
-  context: ScriptContext,
-  withdrawal_key: StakeCredential,
-  withdrawal_value: Int,
-  withdrawal_compare: fn(StakeCredential, StakeCredential) -&gt; Ordering,
-  withdrawal_with: fn(StakeCredential, Int, Int) -&gt; Option&lt;Int&gt;,
-) -&gt; ScriptContext</pre></h2>
-      
-      <!-- TODO: support source linking
-      <a class="member-source" alt="View Source" title="View Source" href="#todo">
-        &lt;/&gt;
-      </a>
-      -->
-      
-    </div>
-    <div class="rendered-markdown"><p>Union <code>withdrawal</code> with a merging function to <code>ScriptContext.transaction.withdrawals</code></p>
-</div>
   </div>
   
   <div class="member">
@@ -1018,13 +691,13 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
       </defs>
     </svg>
 
-    <script src="../js/highlight.min.js?v=1.0.26-alpha"></script>
-    <script src="../js/highlightjs-aiken.js?v=1.0.26-alpha"></script>
+    <script src="../js/highlight.min.js?v=1.0.28-alpha"></script>
+    <script src="../js/highlightjs-aiken.js?v=1.0.28-alpha"></script>
     <script>
       document.querySelectorAll("pre code").forEach((elem) => {
-        // if (elem.className === "") {
+        if (elem.className === "") {
           elem.classList.add("aiken");
-        // }
+        }
       });
       hljs.highlightAll();
       document.querySelectorAll(".member-name > h2 > pre").forEach((el) => {
@@ -1038,9 +711,9 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
 	el.prepend(a);
       });
     </script>
-    <script src="../js/lunr.min.js?v=1.0.26-alpha"></script>
-    <script src="../js/index.js?v=1711704032"></script>
+    <script src="../js/lunr.min.js?v=1.0.28-alpha"></script>
+    <script src="../js/index.js?v=1717157473"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="../search-data.js?v=1711704032"></script>
+    <script src="../search-data.js?v=1717157473"></script>
   </body>
 </html>
