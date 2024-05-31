@@ -46,7 +46,8 @@
 //// }
 //// ```
 
-use aiken/dict.{Dict, delete, from_list, insert, insert_with, union, union_with}
+use aiken/dict.{Dict,
+  delete, from_pairs, insert, insert_with, union, union_with}
 use aiken/hash.{Blake2b_224, Blake2b_256, Hash}
 use aiken/interval.{Interval}
 use aiken/list.{push}
@@ -493,7 +494,7 @@ pub fn union_withdrawal(
       mint: context.transaction.mint,
       certificates: context.transaction.certificates,
       withdrawals: [(withdrawal_key, withdrawal_value)]
-        |> from_list(withdrawal_compare)
+        |> from_pairs(withdrawal_compare)
         |> union(context.transaction.withdrawals, withdrawal_compare),
       validity_range: context.transaction.validity_range,
       extra_signatories: context.transaction.extra_signatories,
@@ -522,7 +523,7 @@ pub fn union_withdrawal_with(
       mint: context.transaction.mint,
       certificates: context.transaction.certificates,
       withdrawals: [(withdrawal_key, withdrawal_value)]
-        |> from_list(withdrawal_compare)
+        |> from_pairs(withdrawal_compare)
         |> union_with(
             context.transaction.withdrawals,
             withdrawal_with,
@@ -670,7 +671,7 @@ pub fn union_redeemer(
       validity_range: context.transaction.validity_range,
       extra_signatories: context.transaction.extra_signatories,
       redeemers: [(redeemer_key, redeemer_value)]
-        |> from_list(redeemer_compare)
+        |> from_pairs(redeemer_compare)
         |> union(context.transaction.redeemers, redeemer_compare),
       datums: context.transaction.datums,
       id: context.transaction.id,
@@ -699,7 +700,7 @@ pub fn union_redeemer_with(
       validity_range: context.transaction.validity_range,
       extra_signatories: context.transaction.extra_signatories,
       redeemers: [(redeemer_key, redeemer_value)]
-        |> from_list(redeemer_compare)
+        |> from_pairs(redeemer_compare)
         |> union_with(
             context.transaction.redeemers,
             redeemer_with,
@@ -838,7 +839,7 @@ pub fn union_datum(
       extra_signatories: context.transaction.extra_signatories,
       redeemers: context.transaction.redeemers,
       datums: [(datum_key, datum_value)]
-        |> from_list(datum_compare)
+        |> from_pairs(datum_compare)
         |> union(context.transaction.datums, datum_compare),
       id: context.transaction.id,
     },
@@ -867,7 +868,7 @@ pub fn union_datum_with(
       extra_signatories: context.transaction.extra_signatories,
       redeemers: context.transaction.redeemers,
       datums: [(datum_key, datum_value)]
-        |> from_list(datum_compare)
+        |> from_pairs(datum_compare)
         |> union_with(context.transaction.datums, datum_with, datum_compare),
       id: context.transaction.id,
     },
