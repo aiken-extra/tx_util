@@ -46,8 +46,7 @@
 //// }
 //// ```
 
-use aiken/dict.{Dict,
-  delete, from_pairs, insert, insert_with, union, union_with}
+use aiken/dict.{Dict}
 use aiken/hash.{Blake2b_224, Blake2b_256, Hash}
 use aiken/interval.{Interval}
 use aiken/list.{push}
@@ -92,10 +91,10 @@ pub fn build_txn_context(validity_range: Interval<PosixTime>) -> ScriptContext {
       fee: from_lovelace(2_000_000),
       mint: zero() |> to_minted_value(),
       certificates: [],
-      withdrawals: dict.new(),
+      withdrawals: [],
       validity_range,
       extra_signatories: [],
-      redeemers: dict.new(),
+      redeemers: [],
       datums: dict.new(),
       id: TransactionId(""),
     },
@@ -393,7 +392,7 @@ pub fn add_certificate(
 /// Set `withdrawals` to `ScriptContext.transaction.withdrawals`
 pub fn set_withdrawals(
   context: ScriptContext,
-  withdrawals: Dict<StakeCredential, Int>,
+  withdrawals: Pairs<StakeCredential, Int>,
 ) -> ScriptContext {
   ScriptContext(
     Transaction {
@@ -414,160 +413,160 @@ pub fn set_withdrawals(
   )
 }
 
-/// Insert `withdrawal` to `ScriptContext.transaction.withdrawals`
-pub fn insert_withdrawal(
-  context: ScriptContext,
-  withdrawal_key,
-  withdrawal_value,
-  withdrawal_compare,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals
-        |> insert(
-            key: withdrawal_key,
-            value: withdrawal_value,
-            compare: withdrawal_compare,
-          ),
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Insert `withdrawal` to `ScriptContext.transaction.withdrawals`
+// pub fn insert_withdrawal(
+//   context: ScriptContext,
+//   withdrawal_key,
+//   withdrawal_value,
+//   withdrawal_compare,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals
+//         |> insert(
+//             key: withdrawal_key,
+//             value: withdrawal_value,
+//             compare: withdrawal_compare,
+//           ),
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Insert `withdrawal` with a merging function to `ScriptContext.transaction.withdrawals`
-pub fn insert_withdrawal_with(
-  context: ScriptContext,
-  withdrawal_key,
-  withdrawal_value,
-  withdrawal_compare,
-  withdrawal_with,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals
-        |> insert_with(
-            key: withdrawal_key,
-            value: withdrawal_value,
-            with: withdrawal_with,
-            compare: withdrawal_compare,
-          ),
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Insert `withdrawal` with a merging function to `ScriptContext.transaction.withdrawals`
+// pub fn insert_withdrawal_with(
+//   context: ScriptContext,
+//   withdrawal_key,
+//   withdrawal_value,
+//   withdrawal_compare,
+//   withdrawal_with,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals
+//         |> insert_with(
+//             key: withdrawal_key,
+//             value: withdrawal_value,
+//             with: withdrawal_with,
+//             compare: withdrawal_compare,
+//           ),
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Union `withdrawal` to `ScriptContext.transaction.withdrawals`
-pub fn union_withdrawal(
-  context: ScriptContext,
-  withdrawal_key,
-  withdrawal_value,
-  withdrawal_compare,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: [(withdrawal_key, withdrawal_value)]
-        |> from_pairs(withdrawal_compare)
-        |> union(context.transaction.withdrawals, withdrawal_compare),
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Union `withdrawal` to `ScriptContext.transaction.withdrawals`
+// pub fn union_withdrawal(
+//   context: ScriptContext,
+//   withdrawal_key,
+//   withdrawal_value,
+//   withdrawal_compare,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: [(withdrawal_key, withdrawal_value)]
+//         |> from_pairs(withdrawal_compare)
+//         |> union(context.transaction.withdrawals, withdrawal_compare),
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Union `withdrawal` with a merging function to `ScriptContext.transaction.withdrawals`
-pub fn union_withdrawal_with(
-  context: ScriptContext,
-  withdrawal_key,
-  withdrawal_value,
-  withdrawal_compare,
-  withdrawal_with,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: [(withdrawal_key, withdrawal_value)]
-        |> from_pairs(withdrawal_compare)
-        |> union_with(
-            context.transaction.withdrawals,
-            withdrawal_with,
-            withdrawal_compare,
-          ),
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Union `withdrawal` with a merging function to `ScriptContext.transaction.withdrawals`
+// pub fn union_withdrawal_with(
+//   context: ScriptContext,
+//   withdrawal_key,
+//   withdrawal_value,
+//   withdrawal_compare,
+//   withdrawal_with,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: [(withdrawal_key, withdrawal_value)]
+//         |> from_pairs(withdrawal_compare)
+//         |> union_with(
+//             context.transaction.withdrawals,
+//             withdrawal_with,
+//             withdrawal_compare,
+//           ),
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Delete `withdrawal` from `ScriptContext.transaction.withdrawals`
-pub fn delete_withdrawal(
-  context: ScriptContext,
-  withdrawal_key,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals
-        |> delete(withdrawal_key),
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Delete `withdrawal` from `ScriptContext.transaction.withdrawals`
+// pub fn delete_withdrawal(
+//   context: ScriptContext,
+//   withdrawal_key,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals
+//         |> delete(withdrawal_key),
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
 /// Set `redeemers` to `ScriptContext.transaction.redeemers`
 pub fn set_redeemers(
   context: ScriptContext,
-  redeemers: Dict<ScriptPurpose, Redeemer>,
+  redeemers: Pairs<ScriptPurpose, Redeemer>,
 ) -> ScriptContext {
   ScriptContext(
     Transaction {
@@ -588,152 +587,152 @@ pub fn set_redeemers(
   )
 }
 
-/// Insert `redeemer` to `ScriptContext.transaction.redeemers`
-pub fn insert_redeemer(
-  context: ScriptContext,
-  redeemer_key,
-  redeemer_value,
-  redeemer_compare,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers
-        |> insert(
-            key: redeemer_key,
-            value: redeemer_value,
-            compare: redeemer_compare,
-          ),
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Insert `redeemer` to `ScriptContext.transaction.redeemers`
+// pub fn insert_redeemer(
+//   context: ScriptContext,
+//   redeemer_key,
+//   redeemer_value,
+//   redeemer_compare,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers
+//         |> insert(
+//             key: redeemer_key,
+//             value: redeemer_value,
+//             compare: redeemer_compare,
+//           ),
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Insert `redeemer` with a merging function to `ScriptContext.transaction.redeemers`
-pub fn insert_redeemer_with(
-  context: ScriptContext,
-  redeemer_key,
-  redeemer_value,
-  redeemer_compare,
-  redeemer_with,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers
-        |> insert_with(
-            key: redeemer_key,
-            value: redeemer_value,
-            with: redeemer_with,
-            compare: redeemer_compare,
-          ),
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Insert `redeemer` with a merging function to `ScriptContext.transaction.redeemers`
+// pub fn insert_redeemer_with(
+//   context: ScriptContext,
+//   redeemer_key,
+//   redeemer_value,
+//   redeemer_compare,
+//   redeemer_with,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers
+//         |> insert_with(
+//             key: redeemer_key,
+//             value: redeemer_value,
+//             with: redeemer_with,
+//             compare: redeemer_compare,
+//           ),
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Union `redeemer` to `ScriptContext.transaction.redeemers`
-pub fn union_redeemer(
-  context: ScriptContext,
-  redeemer_key,
-  redeemer_value,
-  redeemer_compare,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: [(redeemer_key, redeemer_value)]
-        |> from_pairs(redeemer_compare)
-        |> union(context.transaction.redeemers, redeemer_compare),
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Union `redeemer` to `ScriptContext.transaction.redeemers`
+// pub fn union_redeemer(
+//   context: ScriptContext,
+//   redeemer_key,
+//   redeemer_value,
+//   redeemer_compare,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: [(redeemer_key, redeemer_value)]
+//         |> from_pairs(redeemer_compare)
+//         |> union(context.transaction.redeemers, redeemer_compare),
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Union `redeemer` with a merging function to `ScriptContext.transaction.redeemers`
-pub fn union_redeemer_with(
-  context: ScriptContext,
-  redeemer_key,
-  redeemer_value,
-  redeemer_compare,
-  redeemer_with,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: [(redeemer_key, redeemer_value)]
-        |> from_pairs(redeemer_compare)
-        |> union_with(
-            context.transaction.redeemers,
-            redeemer_with,
-            redeemer_compare,
-          ),
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Union `redeemer` with a merging function to `ScriptContext.transaction.redeemers`
+// pub fn union_redeemer_with(
+//   context: ScriptContext,
+//   redeemer_key,
+//   redeemer_value,
+//   redeemer_compare,
+//   redeemer_with,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: [(redeemer_key, redeemer_value)]
+//         |> from_pairs(redeemer_compare)
+//         |> union_with(
+//             context.transaction.redeemers,
+//             redeemer_with,
+//             redeemer_compare,
+//           ),
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Delete `redeemer` from `ScriptContext.transaction.redeemers`
-pub fn delete_redeemer(context: ScriptContext, redeemer_key) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers
-        |> delete(redeemer_key),
-      datums: context.transaction.datums,
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Delete `redeemer` from `ScriptContext.transaction.redeemers`
+// pub fn delete_redeemer(context: ScriptContext, redeemer_key) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers
+//         |> delete(redeemer_key),
+//       datums: context.transaction.datums,
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
 /// Set `datums` from `ScriptContext.transaction.datums`
 pub fn set_datums(
@@ -759,144 +758,144 @@ pub fn set_datums(
   )
 }
 
-/// Insert `datum` to `ScriptContext.transaction.datums`
-pub fn insert_datum(
-  context: ScriptContext,
-  datum_key,
-  datum_value,
-  datum_compare,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: context.transaction.datums
-        |> insert(key: datum_key, value: datum_value, compare: datum_compare),
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Insert `datum` to `ScriptContext.transaction.datums`
+// pub fn insert_datum(
+//   context: ScriptContext,
+//   datum_key,
+//   datum_value,
+//   datum_compare,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: context.transaction.datums
+//         |> insert(key: datum_key, value: datum_value, compare: datum_compare),
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Insert `datum` with a merging function to `ScriptContext.transaction.datums`
-pub fn insert_datum_with(
-  context: ScriptContext,
-  datum_key,
-  datum_value,
-  datum_compare,
-  datum_with,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: context.transaction.datums
-        |> insert_with(
-            key: datum_key,
-            value: datum_value,
-            with: datum_with,
-            compare: datum_compare,
-          ),
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Insert `datum` with a merging function to `ScriptContext.transaction.datums`
+// pub fn insert_datum_with(
+//   context: ScriptContext,
+//   datum_key,
+//   datum_value,
+//   datum_compare,
+//   datum_with,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: context.transaction.datums
+//         |> insert_with(
+//             key: datum_key,
+//             value: datum_value,
+//             with: datum_with,
+//             compare: datum_compare,
+//           ),
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Union `datum` to `ScriptContext.transaction.datums`
-pub fn union_datum(
-  context: ScriptContext,
-  datum_key,
-  datum_value,
-  datum_compare,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: [(datum_key, datum_value)]
-        |> from_pairs(datum_compare)
-        |> union(context.transaction.datums, datum_compare),
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Union `datum` to `ScriptContext.transaction.datums`
+// pub fn union_datum(
+//   context: ScriptContext,
+//   datum_key,
+//   datum_value,
+//   datum_compare,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: [(datum_key, datum_value)]
+//         |> from_pairs(datum_compare)
+//         |> union(context.transaction.datums, datum_compare),
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Union `datum` with a merging function to `ScriptContext.transaction.datums`
-pub fn union_datum_with(
-  context: ScriptContext,
-  datum_key,
-  datum_value,
-  datum_compare,
-  datum_with,
-) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: [(datum_key, datum_value)]
-        |> from_pairs(datum_compare)
-        |> union_with(context.transaction.datums, datum_with, datum_compare),
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Union `datum` with a merging function to `ScriptContext.transaction.datums`
+// pub fn union_datum_with(
+//   context: ScriptContext,
+//   datum_key,
+//   datum_value,
+//   datum_compare,
+//   datum_with,
+// ) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: [(datum_key, datum_value)]
+//         |> from_pairs(datum_compare)
+//         |> union_with(context.transaction.datums, datum_with, datum_compare),
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
-/// Delete `datum` from `ScriptContext.transaction.datums`
-pub fn delete_datum(context: ScriptContext, datum_key) -> ScriptContext {
-  ScriptContext(
-    Transaction {
-      inputs: context.transaction.inputs,
-      reference_inputs: context.transaction.reference_inputs,
-      outputs: context.transaction.outputs,
-      fee: context.transaction.fee,
-      mint: context.transaction.mint,
-      certificates: context.transaction.certificates,
-      withdrawals: context.transaction.withdrawals,
-      validity_range: context.transaction.validity_range,
-      extra_signatories: context.transaction.extra_signatories,
-      redeemers: context.transaction.redeemers,
-      datums: context.transaction.datums
-        |> delete(datum_key),
-      id: context.transaction.id,
-    },
-    context.purpose,
-  )
-}
+// /// Delete `datum` from `ScriptContext.transaction.datums`
+// pub fn delete_datum(context: ScriptContext, datum_key) -> ScriptContext {
+//   ScriptContext(
+//     Transaction {
+//       inputs: context.transaction.inputs,
+//       reference_inputs: context.transaction.reference_inputs,
+//       outputs: context.transaction.outputs,
+//       fee: context.transaction.fee,
+//       mint: context.transaction.mint,
+//       certificates: context.transaction.certificates,
+//       withdrawals: context.transaction.withdrawals,
+//       validity_range: context.transaction.validity_range,
+//       extra_signatories: context.transaction.extra_signatories,
+//       redeemers: context.transaction.redeemers,
+//       datums: context.transaction.datums
+//         |> delete(datum_key),
+//       id: context.transaction.id,
+//     },
+//     context.purpose,
+//   )
+// }
 
 /// Set `ScriptContext.transaction.fee`
 pub fn set_fee(context: ScriptContext, fee: Value) -> ScriptContext {
