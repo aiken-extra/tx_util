@@ -46,6 +46,7 @@
 //// }
 //// ```
 
+use aiken/collection.{Index}
 use aiken/collection/dict.{Dict}
 use aiken/collection/list.{push}
 use aiken/collection/pairs
@@ -54,7 +55,10 @@ use aiken/interval.{Interval}
 use cardano/address.{Address, Credential}
 use cardano/assets.{Lovelace, PolicyId, Value, from_lovelace, merge}
 use cardano/certificate.{Certificate}
-use cardano/script_context.{Minting, ScriptContext, Spending}
+use cardano/governance.{ProposalProcedure, Voter}
+use cardano/script_context.{
+  Minting, Proposing, Publishing, ScriptContext, Spending, Voting, Withdrawing,
+}
 use cardano/transaction.{
   Datum, Output, OutputReference, Redeemer, ScriptPurpose, Transaction,
   TransactionId,
@@ -78,7 +82,14 @@ type PubKeyHash =
 type TxHash =
   Hash<Blake2b_256, Transaction>
 
+// ## Starting Point
+
 /// The initial function that serves as the starting point to construct `ScriptContext`
+///
+/// Example,
+/// ```
+/// let ctx = after(now) |> build_txn_context()
+/// ```
 pub fn build_txn_context(validity_range: Interval<Int>) -> ScriptContext {
   ScriptContext(
     Transaction {
@@ -92,7 +103,7 @@ pub fn build_txn_context(validity_range: Interval<Int>) -> ScriptContext {
   )
 }
 
-/// Set `ScriptContext.transaction.id`
+/// **OPTIONAL**: Set `ScriptContext.transaction.id`
 pub fn set_id(context: ScriptContext, id: TransactionId) -> ScriptContext {
   ScriptContext(
     Transaction { ..context.transaction, id: id },
@@ -101,7 +112,9 @@ pub fn set_id(context: ScriptContext, id: TransactionId) -> ScriptContext {
   )
 }
 
-// Manually set the Spending ScriptPurpose `OutputReference`
+// ## Script Purpose
+
+/// Set the Spending ScriptPurpose `OutputReference`
 pub fn spend(context: ScriptContext, o_ref: OutputReference) -> ScriptContext {
   ScriptContext(context.transaction, context.redeemer, Spending(o_ref, None))
 }
@@ -120,6 +133,47 @@ pub fn mint_assets(
   )
 }
 
+/// Set the Withdrawing ScriptPurpose `Credential`
+pub fn withdraw_stake_rewards(
+  context: ScriptContext,
+  credential: Credential,
+) -> ScriptContext {
+  ScriptContext(context.transaction, context.redeemer, Withdrawing(credential))
+}
+
+/// Set the Publishing ScriptPurpose `Certificate` at `Index`
+pub fn publish_stake(
+  context: ScriptContext,
+  certificate: Certificate,
+  at: Index,
+) -> ScriptContext {
+  ScriptContext(
+    context.transaction,
+    context.redeemer,
+    Publishing(at, certificate),
+  )
+}
+
+/// Set the Voting ScriptPurpose `Voter`
+pub fn vote_governance(context: ScriptContext, voter: Voter) -> ScriptContext {
+  ScriptContext(context.transaction, context.redeemer, Voting(voter))
+}
+
+/// Set the Proposing ScriptPurpose `ProposalProcedure` at `Index`
+pub fn propose_governance(
+  context: ScriptContext,
+  proposal_procedure: ProposalProcedure,
+  at: Index,
+) -> ScriptContext {
+  ScriptContext(
+    context.transaction,
+    context.redeemer,
+    Proposing(at, proposal_procedure),
+  )
+}
+
+// ## Sign Transaction
+
 /// Push `signatory` to `ScriptContext.transaction.extra_signatories`
 pub fn add_signatory(
   context: ScriptContext,
@@ -135,6 +189,8 @@ pub fn add_signatory(
     context.info,
   )
 }
+
+// ## Add Reference Input
 
 /// Push `tx_ref_in` to `ScriptContext.transaction.reference_inputs`
 pub fn add_tx_ref_input(
@@ -152,7 +208,20 @@ pub fn add_tx_ref_input(
   )
 }
 
+// ## Add Transaction Input
+
 /// Push `tx_in` to `ScriptContext.transaction.inputs`
+///
+/// Example,
+/// ```
+/// let tx_in = new_tx_input(...)
+///     |> attach_ref_script_to_tx_input(validator_hash)
+///     |> with_asset_of_tx_input(value)
+///
+/// let ctx = after(now)
+///     |> build_txn_context()
+///     |> add_tx_input(tx_in)
+/// ```
 pub fn add_tx_input(
   context: ScriptContext,
   tx_in: transaction.Input,
@@ -186,7 +255,7 @@ pub fn new_tx_input(
   )
 }
 
-// Attach a reference script to a transaction input.
+/// Attach a reference script to a transaction input.
 pub fn attach_ref_script_to_tx_input(
   input: transaction.Input,
   ref_script: ValidatorHash,
@@ -219,7 +288,20 @@ pub fn with_asset_of_tx_input(
   )
 }
 
+// ## Add Transaction Output
+
 /// Push `tx_out` to `ScriptContext.transaction.outputs`
+///
+/// Example,
+/// ```
+/// let tx_out = new_tx_output(...)
+///     |> attach_ref_script_to_tx_output(validator_hash)
+///     |> add_asset_to_tx_output(value)
+///
+/// let ctx = after(now)
+///     |> build_txn_context()
+///     |> add_tx_output(tx_out)
+/// ```
 pub fn add_tx_output(
   context: ScriptContext,
   tx_out: transaction.Output,
@@ -249,7 +331,7 @@ pub fn new_tx_output(
   }
 }
 
-// Attach a reference script to a transaction output.
+/// Attach a reference script to a transaction output.
 pub fn attach_ref_script_to_tx_output(
   output: transaction.Output,
   ref_script: ValidatorHash,
@@ -276,6 +358,8 @@ pub fn add_asset_to_tx_output(
   }
 }
 
+// ## Add Certificate
+
 /// Push `certificate` to `ScriptContext.transaction.certificates`
 pub fn add_certificate(
   context: ScriptContext,
@@ -291,6 +375,8 @@ pub fn add_certificate(
     context.info,
   )
 }
+
+// ## Transaction Withdrawals
 
 /// Set `withdrawals` to `ScriptContext.transaction.withdrawals`
 pub fn set_withdrawals(
@@ -445,6 +531,8 @@ pub fn insert_withdrawal(
 //   )
 // }
 
+// ## Transaction Redeemers
+
 /// Set `redeemers` to `ScriptContext.transaction.redeemers`
 pub fn set_redeemers(
   context: ScriptContext,
@@ -594,6 +682,8 @@ pub fn insert_redeemer(
 //     context.purpose,
 //   )
 // }
+
+// ## Transaction Datums
 
 /// Set `datums` from `ScriptContext.transaction.datums`
 pub fn set_datums(
@@ -745,6 +835,8 @@ pub fn set_datums(
 //     context.purpose,
 //   )
 // }
+
+// ## Transaction Fees
 
 /// Set `ScriptContext.transaction.fee`
 pub fn set_fee(context: ScriptContext, fee: Lovelace) -> ScriptContext {
