@@ -2,10 +2,10 @@
 
 A utility library to help constructing `ScriptContext`, useful for testing.
 
-| ℹ️  | Package info    | aiken-extra/tx_util v1.190.202405 | 🪲  |
+| ℹ️  | Package info    | aiken-extra/tx_util v1.200.202409 | 🐞  |
 | --- | --------------- | --------------------------------- | --- |
-| 🟢  | **Depends on**  | **aiken-lang/stdlib v1.9.0**      | ✔️  |
-| 🟢  | **Tested with** | **aiken v1.0.28-alpha**           | ✔️  |
+| 🟢  | **Depends on**  | **aiken-lang/stdlib v2.0.0**      | ✔️  |
+| 🟢  | **Tested with** | **aiken v1.1.0**                  | ✔️  |
 
 ## Usage Example
 
