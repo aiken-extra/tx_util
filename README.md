@@ -1,13 +1,25 @@
 # tx_util
 
-A utility library to help constructing `ScriptContext`, useful for testing.
+A utility library to help constructing `Transaction` and `ScriptContext`, useful for testing.
 
-| ℹ️  | Package info    | aiken-extra/tx_util v1.210.202409 | 🐞  |
+| ℹ️  | Package info    | aiken-extra/tx_util v2.210.202409 | 🐞  |
 | --- | --------------- | --------------------------------- | --- |
 | 🟢  | **Depends on**  | **aiken-lang/stdlib v2.1.0**      | ✔️  |
 | 🟢  | **Tested with** | **aiken v1.1.2**                  | ✔️  |
 
 ## Usage Example
+
+### `Transaction`
+
+```gleam
+use tx_util/builder/txn.{}
+```
+
+```gleam
+
+```
+
+### `ScriptContext`
 
 ```gleam
 use tx_util/builder.{

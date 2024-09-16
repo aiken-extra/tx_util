@@ -120,13 +120,13 @@
       <h2>
         <a href="./">tx_util</a>
         <span id="project-version">
-          <span>1.210.202409 </span>
+          <span>2.210.202409 </span>
         </span>
         <script>
           "use strict";
 
           if ("undefined" !== typeof versionNodes) {
-            const currentVersion = "v1.210.202409";
+            const currentVersion = "v2.210.202409";
             if (! versionNodes.find(element => element.version === currentVersion)) {
               versionNodes.unshift({ version: currentVersion, url: "#" });
             }
@@ -192,13 +192,17 @@
         <ul>
         
 	  
-	    <li data-indent="0"><span>tx_util</span></li>
+	    
+	      <li data-indent="0"><a href="./tx_util/builder.html">
+	      tx_util/builder
+	      </a></li>
+	    
 	  
         
 	  
 	    
-	      <li data-indent="1"><a href="./tx_util/builder.html">
-	      builder
+	      <li data-indent="1"><a href="./tx_util/builder/txn.html">
+	      txn
 	      </a></li>
 	    
 	  
@@ -209,12 +213,18 @@
       <main class="content">
         
 <h1>tx_util</h1>
-<p>A utility library to help constructing <code>ScriptContext</code>, useful for testing.</p>
-<table><thead><tr><th>ℹ️</th><th>Package info</th><th>aiken-extra/tx_util v1.210.202409</th><th>🐞</th></tr></thead><tbody>
+<p>A utility library to help constructing <code>Transaction</code> and <code>ScriptContext</code>, useful for testing.</p>
+<table><thead><tr><th>ℹ️</th><th>Package info</th><th>aiken-extra/tx_util v2.210.202409</th><th>🐞</th></tr></thead><tbody>
 <tr><td>🟢</td><td><strong>Depends on</strong></td><td><strong>aiken-lang/stdlib v2.1.0</strong></td><td>✔️</td></tr>
 <tr><td>🟢</td><td><strong>Tested with</strong></td><td><strong>aiken v1.1.2</strong></td><td>✔️</td></tr>
 </tbody></table>
 <h2>Usage Example</h2>
+<h3><code>Transaction</code></h3>
+<pre><code class="language-gleam">use tx_util/builder/txn.{}
+</code></pre>
+<pre><code class="language-gleam">
+</code></pre>
+<h3><code>ScriptContext</code></h3>
 <pre><code class="language-gleam">use tx_util/builder.{
     build_txn_context,
     mint_assets,
@@ -385,9 +395,9 @@ tx_out_2 = new_tx_output(...)
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="./js/lunr.min.js?v=1.1.2"></script>
-    <script src="./js/index.js?v=1726368001"></script>
+    <script src="./js/index.js?v=1726487025"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="./search-data.js?v=1726368001"></script>
+    <script src="./search-data.js?v=1726487025"></script>
     <script>
       void function() {
         if (typeof tippy !== "undefined") {
