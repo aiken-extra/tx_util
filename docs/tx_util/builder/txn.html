@@ -423,7 +423,7 @@
   <a href="#module-name">tx_util/builder/txn</a>
 </h1>
 <p>Usage example,</p>
-<pre><code>test validate_spend() {
+<pre><code>test positive_case() {
   // Arrange:
   let nft = from_asset("NftPolicy", "NftName", 1)
   let token = from_asset("TokenPolicy", "TokenName", 10)
@@ -512,7 +512,7 @@ The default value is <code>#"000000000000000000000000000000000000000000000000000
           
         </div>
         <div class="rendered-markdown"><p>Set <code>Transaction.validity_range</code>.
-The default value is <code>interval.everything()</code></p>
+The default value is <code>interval.everything</code></p>
 </div>
       </div>
     
@@ -1198,9 +1198,9 @@ The new value is placed at the end of the list.</p>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="../../js/lunr.min.js?v=1.1.2"></script>
-    <script src="../../js/index.js?v=1726538339"></script>
+    <script src="../../js/index.js?v=1726547567"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="../../search-data.js?v=1726538339"></script>
+    <script src="../../search-data.js?v=1726547567"></script>
     <script>
       void function() {
         if (typeof tippy !== "undefined") {

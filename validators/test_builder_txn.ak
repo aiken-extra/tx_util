@@ -656,16 +656,22 @@ test testing_add_redeemer() {
   let script_purpose_2 = output_reference |> transaction.Spend
   let script_purpose_3 = "ScriptHash" |> address.Script |> transaction.Withdraw
   let script_purpose_4 =
-    transaction.Publish(
-      0,
-      "ScriptHash" |> address.Script |> RetireFromConstitutionalCommittee,
-    )
+    transaction.Publish {
+      at: 3,
+      certificate: "ScriptHash"
+        |> address.Script
+        |> RetireFromConstitutionalCommittee,
+    }
   let script_purpose_5 = "VerificationKeyHash" |> StakePool |> transaction.Vote
   let script_purpose_6 =
-    transaction.Propose(
-      0,
-      ProposalProcedure(0, "ScriptHash" |> address.Script, NicePoll),
-    )
+    transaction.Propose {
+      at: 5,
+      proposal_procedure: ProposalProcedure {
+        deposit: 500_000_000,
+        return_address: "ScriptHash" |> address.Script,
+        governance_action: NicePoll,
+      },
+    }
 
   let redeemer = "Redeemer" |> b_data
 

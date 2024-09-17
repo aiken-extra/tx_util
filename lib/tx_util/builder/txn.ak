@@ -1,6 +1,6 @@
 //// Usage example,
 //// ```
-//// test validate_spend() {
+//// test positive_case() {
 ////   // Arrange:
 ////   let nft = from_asset("NftPolicy", "NftName", 1)
 ////   let token = from_asset("TokenPolicy", "TokenName", 10)
@@ -75,7 +75,7 @@ pub fn set_id(tx: Transaction, id: TransactionId) -> Transaction {
 }
 
 /// Set `Transaction.validity_range`.
-/// The default value is `interval.everything()`
+/// The default value is `interval.everything`
 pub fn set_validity_range(
   tx: Transaction,
   validity_range: ValidityRange,
