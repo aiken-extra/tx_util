@@ -423,7 +423,57 @@
   <a href="#module-name">tx_util/builder/txn</a>
 </h1>
 <p>Usage example,</p>
-<pre><code></code></pre>
+<pre><code>test validate_spend() {
+  // Arrange:
+  let nft = from_asset("NftPolicy", "NftName", 1)
+  let token = from_asset("TokenPolicy", "TokenName", 10)
+  // use cardano/assets.{from_asset}
+  let asset_1 = from_asset("AssetPolicy1", "AssetName1", 1)
+  let asset_2 = from_asset("AssetPolicy2", "AssetName2", 1000)
+  let asset_2_partial = from_asset("AssetPolicy2", "AssetName2", 100)
+
+  // tx_util/builder/txn:
+  let tx_ref_in =
+    new_tx_input(
+      output_reference: OutputReference("TxRefInHash", 0),
+      address: "VerificationKeyHash" |&gt; from_verification_key,
+    )
+      |&gt; with_asset_of_tx_input(2_000_000 |&gt; from_lovelace)
+      |&gt; with_asset_of_tx_input(token)
+
+  let tx_in =
+    new_tx_input(
+      output_reference: OutputReference("TxInHash", 1),
+      address: "ScriptHash" |&gt; from_script,
+    )
+      |&gt; set_datum_of_tx_input("OldDatum" |&gt; InlineDatum)
+      |&gt; with_asset_of_tx_input(4_000_000 |&gt; from_lovelace)
+      |&gt; with_asset_of_tx_input(nft)
+      |&gt; with_asset_of_tx_input(asset_1)
+      |&gt; with_asset_of_tx_input(asset_2)
+
+  let tx_out =
+    new_tx_output(address: "ValidatorHash" |&gt; from_script)
+      |&gt; set_datum_of_tx_output("NewDatum" |&gt; InlineDatum)
+      |&gt; add_asset_to_tx_output(4_000_000 |&gt; from_lovelace)
+      |&gt; add_asset_to_tx_output(nft)
+      |&gt; add_asset_to_tx_output(asset_1)
+      |&gt; add_asset_to_tx_output(asset_2_partial)
+
+  let tx =
+    transaction.placeholder
+      |&gt; add_tx_ref_input(tx_ref_in)
+      |&gt; add_tx_input(tx_in)
+      |&gt; add_tx_output(tx_out)
+      |&gt; add_signatory("PubKeyHash")
+
+  // Trace:
+  trace @"Tx": tx
+
+  // Assert:
+  vallidator.validate.spend(None, Void, output_reference, tx)
+}
+</code></pre>
 
 
 
@@ -441,7 +491,7 @@
         <div class="member-name">
           <h2 id="set_id"><pre class="hljs language-aiken">set_id(tx: Transaction, id: TransactionId) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L23-L25"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L73-L75"></a>
           
         </div>
         <div class="rendered-markdown"><p>Set <code>Transaction.id</code>.
@@ -458,10 +508,11 @@ The default value is <code>#"000000000000000000000000000000000000000000000000000
   validity_range: ValidityRange,
 ) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L28-L33"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L79-L84"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set <code>Transaction.validity_range</code></p>
+        <div class="rendered-markdown"><p>Set <code>Transaction.validity_range</code>.
+The default value is <code>interval.everything()</code></p>
 </div>
       </div>
     
@@ -471,10 +522,11 @@ The default value is <code>#"000000000000000000000000000000000000000000000000000
         <div class="member-name">
           <h2 id="set_fee"><pre class="hljs language-aiken">set_fee(tx: Transaction, fee: assets.Lovelace) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L36-L38"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L88-L90"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set <code>Transaction.fee</code></p>
+        <div class="rendered-markdown"><p>Set <code>Transaction.fee</code>.
+The default value is <code>0</code></p>
 </div>
       </div>
     
@@ -490,7 +542,7 @@ The default value is <code>#"000000000000000000000000000000000000000000000000000
         <div class="member-name">
           <h2 id="add_tx_input"><pre class="hljs language-aiken">add_tx_input(tx: Transaction, tx_in: transaction.Input) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L56-L58"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L108-L110"></a>
           
         </div>
         <div class="rendered-markdown"><p>Concat <code>tx_in</code> to <code>Transaction.inputs</code>.
@@ -523,7 +575,7 @@ let txn = transaction.placeholder
   address: Address,
 ) -&gt; transaction.Input</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L71-L84"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L123-L136"></a>
           
         </div>
         <div class="rendered-markdown"><p>Initialize a transaction input with zero assets value, no datum, and no reference script.</p>
@@ -545,10 +597,10 @@ let tx_in = new_tx_input(output_reference, address)
   asset: assets.Value,
 ) -&gt; transaction.Input</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L96-L107"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L148-L159"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Add asset(s) to a transaction input.</p>
+        <div class="rendered-markdown"><p>Add an asset to a transaction input.</p>
 <p>Example,</p>
 <pre><code>let tx_in = new_tx_input(output_reference, address)
     |&gt; with_asset_of_tx_input(from_lovelace(2_000_000))
@@ -568,10 +620,10 @@ let tx_in = new_tx_input(output_reference, address)
   datum: transaction.Datum,
 ) -&gt; transaction.Input</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L116-L124"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L168-L176"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set the datum of a transaction input.</p>
+        <div class="rendered-markdown"><p>Set a datum of a transaction input.</p>
 <p>Example,</p>
 <pre><code>let tx_in = new_tx_input(output_reference, address)
     |&gt; set_datum_of_tx_input(InlineDatum(...))
@@ -588,7 +640,7 @@ let tx_in = new_tx_input(output_reference, address)
   ref_script: ScriptHash,
 ) -&gt; transaction.Input</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L133-L144"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L185-L196"></a>
           
         </div>
         <div class="rendered-markdown"><p>Attach a reference script to a transaction input.</p>
@@ -605,7 +657,7 @@ let tx_in = new_tx_input(output_reference, address)
         <div class="member-name">
           <h2 id="remove_ref_script_from_tx_input"><pre class="hljs language-aiken">remove_ref_script_from_tx_input(input: transaction.Input) -&gt; transaction.Input</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L154-L161"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L206-L213"></a>
           
         </div>
         <div class="rendered-markdown"><p>Remove reference script from a transaction input.</p>
@@ -629,7 +681,7 @@ let tx_in = new_tx_input(output_reference, address)
         <div class="member-name">
           <h2 id="add_tx_ref_input"><pre class="hljs language-aiken">add_tx_ref_input(tx: Transaction, tx_ref_in: transaction.Input) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L179-L187"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L231-L239"></a>
           
         </div>
         <div class="rendered-markdown"><p>Concat <code>tx_ref_in</code> to <code>Transaction.reference_inputs</code>.
@@ -659,7 +711,7 @@ let txn = transaction.placeholder
         <div class="member-name">
           <h2 id="add_tx_output"><pre class="hljs language-aiken">add_tx_output(tx: Transaction, tx_out: transaction.Output) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L205-L207"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L257-L259"></a>
           
         </div>
         <div class="rendered-markdown"><p>Concat <code>tx_out</code> to <code>Transaction.outputs</code>.
@@ -689,7 +741,7 @@ let txn = transaction.placeholder
         <div class="member-name">
           <h2 id="new_tx_output"><pre class="hljs language-aiken">new_tx_output(address: Address) -&gt; transaction.Output</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L218-L225"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L270-L277"></a>
           
         </div>
         <div class="rendered-markdown"><p>Initialize a transaction output with zero assets value, no datum, and no reference script.</p>
@@ -709,10 +761,10 @@ let tx_out = new_tx_output(address)
   asset: assets.Value,
 ) -&gt; transaction.Output</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L237-L242"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L289-L294"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Add asset(s) to a transaction output.</p>
+        <div class="rendered-markdown"><p>Add an asset to a transaction output.</p>
 <p>Example,</p>
 <pre><code>let tx_out = new_tx_output(address)
     |&gt; add_asset_to_tx_output(from_lovelace(2_000_000))
@@ -732,10 +784,10 @@ let tx_out = new_tx_output(address)
   datum: transaction.Datum,
 ) -&gt; transaction.Output</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L251-L256"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L303-L308"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set the datum of a transaction output.</p>
+        <div class="rendered-markdown"><p>Set a datum of a transaction output.</p>
 <p>Example,</p>
 <pre><code>let tx_out = new_tx_output(address)
     |&gt; set_datum_of_tx_output(InlineDatum(...))
@@ -752,7 +804,7 @@ let tx_out = new_tx_output(address)
   ref_script: ScriptHash,
 ) -&gt; transaction.Output</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L265-L270"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L317-L322"></a>
           
         </div>
         <div class="rendered-markdown"><p>Attach a reference script to a transaction output.</p>
@@ -771,7 +823,7 @@ let tx_out = new_tx_output(address)
   output: transaction.Output,
 ) -&gt; transaction.Output</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L280-L284"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L332-L336"></a>
           
         </div>
         <div class="rendered-markdown"><p>Remove reference script from a transaction output.</p>
@@ -795,7 +847,7 @@ let tx_out = new_tx_output(address)
         <div class="member-name">
           <h2 id="add_mint"><pre class="hljs language-aiken">add_mint(tx: Transaction, asset: assets.Value) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L289-L291"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L341-L343"></a>
           
         </div>
         <div class="rendered-markdown"><p>Merge <code>asset</code> to <code>Transaction.mint</code></p>
@@ -814,7 +866,7 @@ let tx_out = new_tx_output(address)
         <div class="member-name">
           <h2 id="add_certificate"><pre class="hljs language-aiken">add_certificate(tx: Transaction, certificate: Certificate) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L297-L299"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L349-L351"></a>
           
         </div>
         <div class="rendered-markdown"><p>Concat <code>certificate</code> to <code>Transaction.certificates</code>.
@@ -838,7 +890,7 @@ The new value is placed at the end of the list.</p>
   withdrawal_value: assets.Lovelace,
 ) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L433-L443"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L485-L495"></a>
           
         </div>
         <div class="rendered-markdown"><p>Merge <code>withdrawal</code> to <code>Transaction.withdrawals</code></p>
@@ -857,7 +909,7 @@ The new value is placed at the end of the list.</p>
         <div class="member-name">
           <h2 id="add_signatory"><pre class="hljs language-aiken">add_signatory(tx: Transaction, signatory: VerificationKeyHash) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L449-L457"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L501-L509"></a>
           
         </div>
         <div class="rendered-markdown"><p>Concat <code>signatory</code> to <code>Transaction.extra_signatories</code>.
@@ -881,7 +933,7 @@ The new value is placed at the end of the list.</p>
   datum_value: Data,
 ) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L463-L472"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L515-L524"></a>
           
         </div>
         <div class="rendered-markdown"><p>Insert <code>datum</code> to <code>Transaction.datums</code>.
@@ -899,7 +951,7 @@ If the key already exists, its value is overridden.</p>
   redeemer_value: transaction.Redeemer,
 ) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L476-L490"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L528-L542"></a>
           
         </div>
         <div class="rendered-markdown"><p>Repsert <code>redeemer</code> to <code>Transaction.redeemers</code>.
@@ -923,7 +975,7 @@ If the key already exists, its value is replaced.</p>
   vote_value: Pairs&lt;GovernanceActionId, governance.Vote&gt;,
 ) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L496-L510"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L548-L562"></a>
           
         </div>
         <div class="rendered-markdown"><p>Repsert <code>vote</code> to <code>Transaction.votes</code>.
@@ -942,7 +994,7 @@ If the key already exists, its value is replaced.</p>
   governance_action: GovernanceAction,
 ) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L514-L525"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L566-L577"></a>
           
         </div>
         <div class="rendered-markdown"><p>Concat <code>proposal_procedure</code> to <code>Transaction.proposal_procedures</code>.
@@ -971,7 +1023,7 @@ The new value is placed at the end of the list.</p>
   amount: assets.Lovelace,
 ) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L532-L537"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L584-L589"></a>
           
         </div>
         <div class="rendered-markdown"><p>Set <code>Transaction.current_treasury_amount</code></p>
@@ -984,7 +1036,7 @@ The new value is placed at the end of the list.</p>
         <div class="member-name">
           <h2 id="unset_current_treasury_amount"><pre class="hljs language-aiken">unset_current_treasury_amount(tx: Transaction) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L540-L542"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L592-L594"></a>
           
         </div>
         <div class="rendered-markdown"><p>Unset <code>Transaction.current_treasury_amount</code></p>
@@ -1003,7 +1055,7 @@ The new value is placed at the end of the list.</p>
         <div class="member-name">
           <h2 id="set_treasury_donation"><pre class="hljs language-aiken">set_treasury_donation(tx: Transaction, donation: assets.Lovelace) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L547-L552"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L599-L604"></a>
           
         </div>
         <div class="rendered-markdown"><p>Set <code>Transaction.treasury_donation</code></p>
@@ -1016,7 +1068,7 @@ The new value is placed at the end of the list.</p>
         <div class="member-name">
           <h2 id="unset_treasury_donation"><pre class="hljs language-aiken">unset_treasury_donation(tx: Transaction) -&gt; Transaction</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L555-L557"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.210.202409/lib/tx_util/builder/txn.ak#L607-L609"></a>
           
         </div>
         <div class="rendered-markdown"><p>Unset <code>Transaction.treasury_donation</code></p>
@@ -1146,9 +1198,9 @@ The new value is placed at the end of the list.</p>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="../../js/lunr.min.js?v=1.1.2"></script>
-    <script src="../../js/index.js?v=1726487025"></script>
+    <script src="../../js/index.js?v=1726538339"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="../../search-data.js?v=1726487025"></script>
+    <script src="../../search-data.js?v=1726538339"></script>
     <script>
       void function() {
         if (typeof tippy !== "undefined") {

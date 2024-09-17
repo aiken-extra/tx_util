@@ -1,5 +1,55 @@
 //// Usage example,
 //// ```
+//// test validate_spend() {
+////   // Arrange:
+////   let nft = from_asset("NftPolicy", "NftName", 1)
+////   let token = from_asset("TokenPolicy", "TokenName", 10)
+////   // use cardano/assets.{from_asset}
+////   let asset_1 = from_asset("AssetPolicy1", "AssetName1", 1)
+////   let asset_2 = from_asset("AssetPolicy2", "AssetName2", 1000)
+////   let asset_2_partial = from_asset("AssetPolicy2", "AssetName2", 100)
+////
+////   // tx_util/builder/txn:
+////   let tx_ref_in =
+////     new_tx_input(
+////       output_reference: OutputReference("TxRefInHash", 0),
+////       address: "VerificationKeyHash" |> from_verification_key,
+////     )
+////       |> with_asset_of_tx_input(2_000_000 |> from_lovelace)
+////       |> with_asset_of_tx_input(token)
+////
+////   let tx_in =
+////     new_tx_input(
+////       output_reference: OutputReference("TxInHash", 1),
+////       address: "ScriptHash" |> from_script,
+////     )
+////       |> set_datum_of_tx_input("OldDatum" |> InlineDatum)
+////       |> with_asset_of_tx_input(4_000_000 |> from_lovelace)
+////       |> with_asset_of_tx_input(nft)
+////       |> with_asset_of_tx_input(asset_1)
+////       |> with_asset_of_tx_input(asset_2)
+////
+////   let tx_out =
+////     new_tx_output(address: "ValidatorHash" |> from_script)
+////       |> set_datum_of_tx_output("NewDatum" |> InlineDatum)
+////       |> add_asset_to_tx_output(4_000_000 |> from_lovelace)
+////       |> add_asset_to_tx_output(nft)
+////       |> add_asset_to_tx_output(asset_1)
+////       |> add_asset_to_tx_output(asset_2_partial)
+////
+////   let tx =
+////     transaction.placeholder
+////       |> add_tx_ref_input(tx_ref_in)
+////       |> add_tx_input(tx_in)
+////       |> add_tx_output(tx_out)
+////       |> add_signatory("PubKeyHash")
+////
+////   // Trace:
+////   trace @"Tx": tx
+////
+////   // Assert:
+////   vallidator.validate.spend(None, Void, output_reference, tx)
+//// }
 //// ```
 
 use aiken/collection/dict.{insert}
@@ -24,7 +74,8 @@ pub fn set_id(tx: Transaction, id: TransactionId) -> Transaction {
   Transaction { ..tx, id: id }
 }
 
-/// Set `Transaction.validity_range`
+/// Set `Transaction.validity_range`.
+/// The default value is `interval.everything()`
 pub fn set_validity_range(
   tx: Transaction,
   validity_range: ValidityRange,
@@ -32,7 +83,8 @@ pub fn set_validity_range(
   Transaction { ..tx, validity_range: validity_range }
 }
 
-/// Set `Transaction.fee`
+/// Set `Transaction.fee`.
+/// The default value is `0`
 pub fn set_fee(tx: Transaction, fee: assets.Lovelace) -> Transaction {
   Transaction { ..tx, fee: fee }
 }
@@ -83,7 +135,7 @@ pub fn new_tx_input(
   }
 }
 
-/// Add asset(s) to a transaction input.
+/// Add an asset to a transaction input.
 ///
 /// Example,
 /// ```
@@ -106,7 +158,7 @@ pub fn with_asset_of_tx_input(
   }
 }
 
-/// Set the datum of a transaction input.
+/// Set a datum of a transaction input.
 ///
 /// Example,
 /// ```
@@ -224,7 +276,7 @@ pub fn new_tx_output(address: Address) -> transaction.Output {
   }
 }
 
-/// Add asset(s) to a transaction output.
+/// Add an asset to a transaction output.
 ///
 /// Example,
 /// ```
@@ -241,7 +293,7 @@ pub fn add_asset_to_tx_output(
   transaction.Output { ..output, value: output.value |> merge(asset) }
 }
 
-/// Set the datum of a transaction output.
+/// Set a datum of a transaction output.
 ///
 /// Example,
 /// ```
