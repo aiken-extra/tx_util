@@ -52,9 +52,9 @@
 //// }
 //// ```
 
-use aiken/collection/dict.{insert}
-use aiken/collection/list.{concat}
-use aiken/collection/pairs.{repsert_by_ascending_key}
+use aiken/collection/dict
+use aiken/collection/list
+use aiken/collection/pairs
 use aiken/crypto.{DataHash, ScriptHash, VerificationKeyHash}
 use cardano/address.{Address}
 use cardano/address/credential
@@ -106,7 +106,7 @@ pub fn set_fee(tx: Transaction, fee: assets.Lovelace) -> Transaction {
 ///     |> add_tx_input(tx_in)
 /// ```
 pub fn add_tx_input(tx: Transaction, tx_in: transaction.Input) -> Transaction {
-  Transaction { ..tx, inputs: tx.inputs |> concat([tx_in]) }
+  Transaction { ..tx, inputs: tx.inputs |> list.concat([tx_in]) }
 }
 
 // ### Construct Transaction Input
@@ -234,7 +234,7 @@ pub fn add_tx_ref_input(
 ) -> Transaction {
   Transaction {
     ..tx,
-    reference_inputs: tx.reference_inputs |> concat([tx_ref_in]),
+    reference_inputs: tx.reference_inputs |> list.concat([tx_ref_in]),
   }
 }
 
@@ -255,7 +255,7 @@ pub fn add_tx_ref_input(
 ///     |> add_tx_output(tx_out)
 /// ```
 pub fn add_tx_output(tx: Transaction, tx_out: transaction.Output) -> Transaction {
-  Transaction { ..tx, outputs: tx.outputs |> concat([tx_out]) }
+  Transaction { ..tx, outputs: tx.outputs |> list.concat([tx_out]) }
 }
 
 // ### Construct Transaction Output
@@ -347,139 +347,13 @@ pub fn add_mint(tx: Transaction, asset: assets.Value) -> Transaction {
 /// Concat `certificate` to `Transaction.certificates`.
 /// The new value is placed at the end of the list.
 pub fn add_certificate(tx: Transaction, certificate: Certificate) -> Transaction {
-  Transaction { ..tx, certificates: tx.certificates |> concat([certificate]) }
-}
-
-// ## Withdrawals
-
-/// https://github.com/aiken-lang/stdlib/blob/0c2851f45cdad0d23a94f0cba149891a358e7637/lib/aiken/collection/pairs.ak#L589-L609
-fn merge_withdrawal(
-  withdrawals: Pairs<address.Credential, assets.Lovelace>,
-  withdrawal: Pair<address.Credential, assets.Lovelace>,
-) -> Pairs<address.Credential, assets.Lovelace> {
-  when withdrawals is {
-    [] ->
-      [withdrawal]
-
-    [current, ..next] -> {
-      let Pair(current_credential, current_lovelace) = current
-      let Pair(withdrawal_credential, withdrawal_lovelace) = withdrawal
-
-      when withdrawal_credential |> credential.compare(current_credential) is {
-        Less ->
-          [withdrawal, ..withdrawals]
-
-        Equal -> {
-          let total_lovelace = current_lovelace + withdrawal_lovelace
-          [Pair(current_credential, total_lovelace), ..next]
-        }
-
-        Greater ->
-          [current, ..next |> merge_withdrawal(withdrawal)]
-      }
-    }
+  Transaction {
+    ..tx,
+    certificates: tx.certificates |> list.concat([certificate]),
   }
 }
 
-test testing_merge_withdrawal() {
-  expect [Pair(address.Script("a"), 1)] =
-    [] |> merge_withdrawal(Pair(address.Script("a"), 1))
-
-  expect [Pair(address.Script("a"), 3)] =
-    [Pair(address.Script("a"), 1)]
-      |> merge_withdrawal(Pair(address.Script("a"), 2))
-
-  expect [Pair(address.Script("a"), 1), Pair(address.Script("b"), 1)] =
-    [Pair(address.Script("a"), 1)]
-      |> merge_withdrawal(Pair(address.Script("b"), 1))
-
-  expect [Pair(address.Script("a"), 1), Pair(address.VerificationKey("a"), 1)] =
-    [Pair(address.Script("a"), 1)]
-      |> merge_withdrawal(Pair(address.VerificationKey("a"), 1))
-
-  expect [Pair(address.Script("a"), 2), Pair(address.VerificationKey("a"), 1)] =
-    [Pair(address.VerificationKey("a"), 1)]
-      |> merge_withdrawal(Pair(address.Script("a"), 2))
-
-  expect [
-    Pair(address.VerificationKey("a"), 1),
-    Pair(address.VerificationKey("b"), 2),
-  ] =
-    [Pair(address.VerificationKey("b"), 2)]
-      |> merge_withdrawal(Pair(address.VerificationKey("a"), 1))
-
-  expect [Pair(address.VerificationKey("a"), 2)] =
-    [Pair(address.VerificationKey("a"), 1)]
-      |> merge_withdrawal(Pair(address.VerificationKey("a"), 1))
-
-  let withdrawals =
-    [
-      Pair(address.Script("a"), 1),
-      Pair(address.Script("b"), 2),
-      Pair(address.Script("c"), 3),
-      Pair(address.VerificationKey("d"), 4),
-      Pair(address.VerificationKey("e"), 5),
-      Pair(address.VerificationKey("f"), 6),
-    ]
-
-  expect [
-    Pair(address.Script("a"), 1),
-    Pair(address.Script("b"), 2),
-    Pair(address.Script("c"), 3),
-    Pair(address.Script("d"), 7),
-    Pair(address.VerificationKey("d"), 4),
-    Pair(address.VerificationKey("e"), 5),
-    Pair(address.VerificationKey("f"), 6),
-  ] = withdrawals |> merge_withdrawal(Pair(address.Script("d"), 7))
-
-  expect [
-    Pair(address.Script("a"), 1),
-    Pair(address.Script("b"), 2),
-    Pair(address.Script("c"), 3),
-    Pair(address.VerificationKey("c"), 7),
-    Pair(address.VerificationKey("d"), 4),
-    Pair(address.VerificationKey("e"), 5),
-    Pair(address.VerificationKey("f"), 6),
-  ] = withdrawals |> merge_withdrawal(Pair(address.VerificationKey("c"), 7))
-
-  expect [
-    Pair(address.Script("a"), 1),
-    Pair(address.Script("b"), 9),
-    Pair(address.Script("c"), 3),
-    Pair(address.VerificationKey("d"), 4),
-    Pair(address.VerificationKey("e"), 5),
-    Pair(address.VerificationKey("f"), 6),
-  ] = withdrawals |> merge_withdrawal(Pair(address.Script("b"), 7))
-
-  expect [
-    Pair(address.Script("a"), 1),
-    Pair(address.Script("b"), 2),
-    Pair(address.Script("c"), 3),
-    Pair(address.VerificationKey("d"), 4),
-    Pair(address.VerificationKey("e"), 12),
-    Pair(address.VerificationKey("f"), 6),
-  ] = withdrawals |> merge_withdrawal(Pair(address.VerificationKey("e"), 7))
-
-  expect [
-    Pair(address.Script("a"), 1),
-    Pair(address.Script("b"), 2),
-    Pair(address.Script("c"), 3),
-    Pair(address.VerificationKey("d"), 4),
-    Pair(address.VerificationKey("e"), 5),
-    Pair(address.VerificationKey("f"), 6),
-    Pair(address.VerificationKey("g"), 7),
-  ] = withdrawals |> merge_withdrawal(Pair(address.VerificationKey("g"), 7))
-
-  expect [
-    Pair(address.Script(""), 7),
-    Pair(address.Script("a"), 1),
-    Pair(address.Script("b"), 2),
-    Pair(address.Script("c"), 3),
-    Pair(address.VerificationKey("d"), 4),
-    Pair(address.VerificationKey("e"), 5),
-    Pair(address.VerificationKey("f"), 6),
-  ] = withdrawals |> merge_withdrawal(Pair(address.Script(""), 7))
-}
+// ## Withdrawals
 
 /// Merge `withdrawal` to `Transaction.withdrawals`
 pub fn add_withdrawal(
@@ -490,7 +364,12 @@ pub fn add_withdrawal(
   Transaction {
     ..tx,
     withdrawals: tx.withdrawals
-      |> merge_withdrawal(Pair(withdrawal_key, withdrawal_value)),
+      |> pairs.insert_with_by_ascending_key(
+          withdrawal_key,
+          withdrawal_value,
+          credential.compare,
+          with: +,
+        ),
   }
 }
 
@@ -504,7 +383,7 @@ pub fn add_signatory(
 ) -> Transaction {
   Transaction {
     ..tx,
-    extra_signatories: tx.extra_signatories |> concat([signatory]),
+    extra_signatories: tx.extra_signatories |> list.concat([signatory]),
   }
 }
 
@@ -519,7 +398,7 @@ pub fn add_datum(
 ) -> Transaction {
   Transaction {
     ..tx,
-    datums: tx.datums |> insert(key: datum_key, value: datum_value),
+    datums: tx.datums |> dict.insert(key: datum_key, value: datum_value),
   }
 }
 
@@ -533,10 +412,10 @@ pub fn add_redeemer(
   Transaction {
     ..tx,
     redeemers: tx.redeemers
-      |> repsert_by_ascending_key(
-          key: redeemer_key,
-          value: redeemer_value,
-          compare: script_purpose.compare,
+      |> pairs.repsert_by_ascending_key(
+          redeemer_key,
+          redeemer_value,
+          script_purpose.compare,
         ),
   }
 }
@@ -553,11 +432,7 @@ pub fn add_vote(
   Transaction {
     ..tx,
     votes: tx.votes
-      |> repsert_by_ascending_key(
-          key: vote_key,
-          value: vote_value,
-          compare: voter.compare,
-        ),
+      |> pairs.repsert_by_ascending_key(vote_key, vote_value, voter.compare),
   }
 }
 
@@ -572,7 +447,9 @@ pub fn add_proposal_procedure(
   Transaction {
     ..tx,
     proposal_procedures: tx.proposal_procedures
-      |> concat([ProposalProcedure(deposit, return_address, governance_action)]),
+      |> list.concat(
+          [ProposalProcedure(deposit, return_address, governance_action)],
+        ),
   }
 }
 

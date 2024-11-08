@@ -28,7 +28,7 @@ use cardano/certificate.{Certificate}
 use cardano/governance.{ProposalProcedure}
 use cardano/script_context.{ScriptContext}
 use cardano/transaction.{OutputReference, Transaction}
-use tx_util/builder/txn.{set_validity_range}
+use tx_util/builder/txn
 
 // ## Starting Point
 
@@ -43,7 +43,8 @@ pub fn build_context(
   redeemer: transaction.Redeemer,
 ) -> ScriptContext {
   ScriptContext {
-    transaction: transaction.placeholder |> set_validity_range(validity_range),
+    transaction: transaction.placeholder
+      |> txn.set_validity_range(validity_range),
     redeemer,
     info: script_context.Spending {
       output: OutputReference {

@@ -1,5 +1,5 @@
 name = "aiken-extra/tx_util"
-version = "2.210.202409"
+version = "2.215.202411"
 license = "Apache-2.0"
 description = "A Aiken utility library to help constructing ScriptContext"
 
@@ -10,5 +10,5 @@ platform = "github"
 
 [[dependencies]]
 name = "aiken-lang/stdlib"
-version = "v2.1.0"
+version = "0f88f8ffce60b91ae3e4b3a3f40bab153e494760"
 source = "github"

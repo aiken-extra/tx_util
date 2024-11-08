@@ -2,10 +2,10 @@
 
 A utility library to help constructing `Transaction` and `ScriptContext`, useful for testing.
 
-| ℹ️  | Package info    | aiken-extra/tx_util v2.210.202409 | 🐞  |
+| ℹ️  | Package info    | aiken-extra/tx_util v2.215.202411 | 🐞  |
 | --- | --------------- | --------------------------------- | --- |
-| 🟢  | **Depends on**  | **aiken-lang/stdlib v2.1.0**      | ✔️  |
-| 🟢  | **Tested with** | **aiken v1.1.2**                  | ✔️  |
+| 🟢  | **Depends on**  | **aiken-lang/stdlib v0f88f8ffce60b91ae3e4b3a3f40bab153e494760**      | ✔️  |
+| 🟢  | **Tested with** | **aiken v1.1.5**                  | ✔️  |
 
 ## Usage Example
 
