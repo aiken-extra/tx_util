@@ -1,66 +1,67 @@
 # tx_util
 
-A utility library to help constructing `ScriptContext`, useful for testing.
+A utility library to help constructing `Transaction` and `ScriptContext`, useful for testing.
 
-| ℹ️  | Package info    | aiken-extra/tx_util v1.210.202409 | 🐞  |
+| ℹ️  | Package info    | aiken-extra/tx_util v2.215.202411 | 🐞  |
 | --- | --------------- | --------------------------------- | --- |
-| 🟢  | **Depends on**  | **aiken-lang/stdlib v2.1.0**      | ✔️  |
-| 🟢  | **Tested with** | **aiken v1.1.2**                  | ✔️  |
+| 🟢  | **Depends on**  | **aiken-lang/stdlib v0f88f8ffce60b91ae3e4b3a3f40bab153e494760**      | ✔️  |
+| 🟢  | **Tested with** | **aiken v1.1.5**                  | ✔️  |
 
 ## Usage Example
 
+### `Transaction`
+
 ```gleam
-use tx_util/builder.{
-    build_txn_context,
-    mint_assets,
+use tx_util/builder/txn.{
     add_tx_ref_input,
     add_tx_input,
     add_tx_output,
-    add_signatory
+    add_signatory,
 }
 ```
 
 ```gleam
 test validate_something() {
   ...
-  let ctx =
-    after(now) // aiken/interval.{after}
-      |> build_txn_context()
-      |> mint_assets("PolicyID", minted_assets)
-      |> add_tx_ref_input(tx_ref_in)
-      |> add_tx_input(tx_in_1)
-      |> add_tx_input(tx_in_2)
-      |> add_tx_output(tx_out_1)
-      |> add_tx_output(tx_out_2)
-      |> add_signatory("Signer")
+  let tx = transaction.placeholder
+    |> add_tx_ref_input(tx_ref_in)
+    |> add_tx_input(tx_in_1)
+    |> add_tx_input(tx_in_2)
+    |> add_tx_output(tx_out_1)
+    |> add_tx_output(tx_out_2)
+    |> add_signatory("Signer")
   ...
-  validator(..., ..., ctx)
+  // assert:
+  validator.validate.spend(..., ..., ..., tx)
 }
 ```
 
-Where,
+### `ScriptContext`
 
 ```gleam
-// aiken/transaction/value
-minted_assets = to_minted_value(assets)
+use tx_util/builder.{
+    build_context,
+    mint_assets,
+    set_transaction,
+}
+```
 
-// tx_util/builder
-tx_ref_in = new_tx_input(...)
-      |> with_asset_of_tx_input(asset)
-
-// tx_util/builder.{new_tx_input}
-tx_in_1 = new_tx_input(...)
-
-// tx_util/builder.{with_asset_of_tx_input}
-tx_in_2 = new_tx_input(...)
-      |> with_asset_of_tx_input(asset1)
-      |> with_asset_of_tx_input(asset2)
-
-// tx_util/builder.{new_tx_output}
-tx_out_1 = new_tx_output(...)
-
-// tx_util/builder.{add_asset_to_tx_output}
-tx_out_2 = new_tx_output(...)
-      |> add_asset_to_tx_output(asset1)
-      |> add_asset_to_tx_output(asset2)
+```gleam
+test validate_something_else() fail {
+  ...
+  // aiken/interval.{after}:
+  let ctx = after(now)
+    |> build_context("Redeemer")
+    |> mint_assets("PolicyID", assets)
+  ...
+  // tx_util/builder/txn:
+  let tx = ctx.transaction
+    |> add_tx_input(tx_in)
+    |> add_tx_output(tx_out)
+  ...
+  // assert:
+  ctx
+    |> set_transaction(tx)
+    |> validator.validate.else
+}
 ```

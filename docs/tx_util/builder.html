@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#eff1f5" media="(prefers-color-scheme: light)"/>
     <meta name="theme-color" content="#1e1e2e" media="(prefers-color-scheme: dark)"/>
     <link rel="icon" type="image/svg+xml" sizes="any" href="../favicon.svg"/>
-    <link rel="stylesheet" href="../css/index.css?v=1.1.2" type="text/css"/>
-    <link id="syntax-theme" rel="stylesheet" href="../css/atom-one-light.min.css?v=1.1.2"/>
+    <link rel="stylesheet" href="../css/index.css?v=1.1.5" type="text/css"/>
+    <link id="syntax-theme" rel="stylesheet" href="../css/atom-one-light.min.css?v=1.1.5"/>
   </head>
   <body class="prewrap-off theme-light drawer-closed">
     <script>
@@ -120,13 +120,13 @@
       <h2>
         <a href="../">tx_util</a>
         <span id="project-version">
-          <span>1.210.202409 </span>
+          <span>2.215.202411 </span>
         </span>
         <script>
           "use strict";
 
           if ("undefined" !== typeof versionNodes) {
-            const currentVersion = "v1.210.202409";
+            const currentVersion = "v2.215.202411";
             if (! versionNodes.find(element => element.version === currentVersion)) {
               versionNodes.unshift({ version: currentVersion, url: "#" });
             }
@@ -200,26 +200,21 @@
     
   
     
-        <li><a href="#build_txn_context">build_txn_context</a></li>
+        <li><a href="#build_context">build_context</a></li>
 
       
   
     
-        <li><a href="#set_id">set_id</a></li>
-
-      
-  
+        <li data-heading="2"><a href="#Script%20Info">Script Info</a></li>
     
-        <li data-heading="2"><a href="#Script%20Purpose">Script Purpose</a></li>
-    
-  
-    
-        <li><a href="#spend">spend</a></li>
-
-      
   
     
         <li><a href="#mint_assets">mint_assets</a></li>
+
+      
+  
+    
+        <li><a href="#spend_utxo">spend_utxo</a></li>
 
       
   
@@ -229,7 +224,7 @@
       
   
     
-        <li><a href="#publish_stake">publish_stake</a></li>
+        <li><a href="#publish_certificate">publish_certificate</a></li>
 
       
   
@@ -239,128 +234,16 @@
       
   
     
-        <li><a href="#propose_governance">propose_governance</a></li>
+        <li><a href="#propose_procedure">propose_procedure</a></li>
 
       
   
     
-        <li data-heading="2"><a href="#Sign%20Transaction">Sign Transaction</a></li>
+        <li data-heading="2"><a href="#Set%20Transaction">Set Transaction</a></li>
     
   
     
-        <li><a href="#add_signatory">add_signatory</a></li>
-
-      
-  
-    
-        <li data-heading="2"><a href="#Add%20Reference%20Input">Add Reference Input</a></li>
-    
-  
-    
-        <li><a href="#add_tx_ref_input">add_tx_ref_input</a></li>
-
-      
-  
-    
-        <li data-heading="2"><a href="#Add%20Transaction%20Input">Add Transaction Input</a></li>
-    
-  
-    
-        <li><a href="#add_tx_input">add_tx_input</a></li>
-
-      
-  
-    
-        <li><a href="#new_tx_input">new_tx_input</a></li>
-
-      
-  
-    
-        <li><a href="#attach_ref_script_to_tx_input">attach_ref_script_to_tx_input</a></li>
-
-      
-  
-    
-        <li><a href="#with_asset_of_tx_input">with_asset_of_tx_input</a></li>
-
-      
-  
-    
-        <li data-heading="2"><a href="#Add%20Transaction%20Output">Add Transaction Output</a></li>
-    
-  
-    
-        <li><a href="#add_tx_output">add_tx_output</a></li>
-
-      
-  
-    
-        <li><a href="#new_tx_output">new_tx_output</a></li>
-
-      
-  
-    
-        <li><a href="#attach_ref_script_to_tx_output">attach_ref_script_to_tx_output</a></li>
-
-      
-  
-    
-        <li><a href="#add_asset_to_tx_output">add_asset_to_tx_output</a></li>
-
-      
-  
-    
-        <li data-heading="2"><a href="#Add%20Certificate">Add Certificate</a></li>
-    
-  
-    
-        <li><a href="#add_certificate">add_certificate</a></li>
-
-      
-  
-    
-        <li data-heading="2"><a href="#Transaction%20Withdrawals">Transaction Withdrawals</a></li>
-    
-  
-    
-        <li><a href="#set_withdrawals">set_withdrawals</a></li>
-
-      
-  
-    
-        <li><a href="#insert_withdrawal">insert_withdrawal</a></li>
-
-      
-  
-    
-        <li data-heading="2"><a href="#Transaction%20Redeemers">Transaction Redeemers</a></li>
-    
-  
-    
-        <li><a href="#set_redeemers">set_redeemers</a></li>
-
-      
-  
-    
-        <li><a href="#insert_redeemer">insert_redeemer</a></li>
-
-      
-  
-    
-        <li data-heading="2"><a href="#Transaction%20Datums">Transaction Datums</a></li>
-    
-  
-    
-        <li><a href="#set_datums">set_datums</a></li>
-
-      
-  
-    
-        <li data-heading="2"><a href="#Transaction%20Fees">Transaction Fees</a></li>
-    
-  
-    
-        <li><a href="#set_fee">set_fee</a></li>
+        <li><a href="#set_transaction">set_transaction</a></li>
 
       
   
@@ -372,13 +255,17 @@
         <ul>
         
 	  
-	    <li data-indent="0"><span>tx_util</span></li>
+	    
+	      <li data-indent="0" data-current><a href="../tx_util/builder.html">
+	      <strong>tx_util/builder</strong>
+	      </a></li>
+	    
 	  
         
 	  
 	    
-	      <li data-indent="1" data-current><a href="../tx_util/builder.html">
-	      <strong>builder</strong>
+	      <li data-indent="1"><a href="../tx_util/builder/txn.html">
+	      txn
 	      </a></li>
 	    
 	  
@@ -392,49 +279,23 @@
   <a href="#module-name">tx_util/builder</a>
 </h1>
 <p>Usage example,</p>
-<pre><code>test validate_something() {
+<pre><code>test negative_case() fail {
   // Arrange:
-  let nft = from_asset("NftPolicy", "NftName", 1)
-  let token = from_asset("TokenPolicy", "TokenName", 10)
-  // use aiken/transaction/value.{from_asset}
-  let asset_1 = from_asset("AssetPolicy1", "AssetName1", 1)
-  let asset_2 = from_asset("AssetPolicy2", "AssetName2", 1000)
-  let asset_2_partial = from_asset("AssetPolicy2", "AssetName2", 100)
+  let ctx = interval.empty
+    |&gt; build_context("Redeemer")
+    |&gt; vote_governance("VerificationKeyHash" |&gt; StakePool)
 
-  // tx_util/builder:
-  let tx_ref_in = new_tx_input(
-      "TxRefInHash",                       // tx_hash: Hash&lt;Blake2b_256, Transaction&gt;
-      from_verification_key("PubKeyHash"), // address: use aiken/transaction/credential
-      user_ada,                            // lovelace: Int
-      NoDatum,                             // datum: use aiken/transaction.{NoDatum}
-    ) |&gt; with_asset_of_tx_input(token)
+  ...
 
-  let tx_in = new_tx_input(
-      "TxInHash",                          // tx_hash: Hash&lt;Blake2b_256, Transaction&gt;
-      from_script("ValidatorHash"),        // address: use aiken/transaction/credential
-      input_ada,                           // lovelace: Int
-      InlineDatum(old_datum),              // datum: use aiken/transaction.{InlineDatum}
-    ) |&gt; with_asset_of_tx_input(nft)
-      |&gt; with_asset_of_tx_input(asset_1)
-      |&gt; with_asset_of_tx_input(asset_2)
-
-  let tx_out = new_tx_output(
-      from_script("ValidatorHash"),        // address: use aiken/transaction/credential
-      output_ada,                          // lovelace: Int
-      InlineDatum(new_datum),              // datum: use aiken/transaction.{InlineDatum}
-    ) |&gt; add_asset_to_tx_output(nft)
-      |&gt; add_asset_to_tx_output(asset_1)
-      |&gt; add_asset_to_tx_output(asset_2_partial)
-
-  let ctx = empty
-      |&gt; build_txn_context()
-      |&gt; add_tx_ref_input(tx_ref_in)
-      |&gt; add_tx_input(tx_in)
-      |&gt; add_tx_output(tx_out)
-      |&gt; add_signatory("PubKeyHash")
+  // tx_util/builder/txn:
+  let tx = ctx.transaction
+    |&gt; add_tx_input(tx_in)
+    |&gt; add_tx_output(tx_out)
 
   // Assert:
-  !validator.validate(script_arg_1, script_arg_2, datum, redeemer, ctx)
+  ctx
+    |&gt; set_transaction(tx)
+    |&gt; validator.validate.else
 }
 </code></pre>
 
@@ -458,65 +319,59 @@
   
       <div class="member">
         <div class="member-name">
-          <h2 id="build_txn_context"><pre class="hljs language-aiken">build_txn_context(validity_range: Interval&lt;Int&gt;) -&gt; ScriptContext</pre></h2>
+          <h2 id="build_context"><pre class="hljs language-aiken">build_context(
+  validity_range: Interval&lt;Int&gt;,
+  redeemer: transaction.Redeemer,
+) -&gt; ScriptContext</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L93-L104"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.215.202411/lib/tx_util/builder.ak#L41-L57"></a>
           
         </div>
         <div class="rendered-markdown"><p>The initial function that serves as the starting point to construct <code>ScriptContext</code></p>
 <p>Example,</p>
-<pre><code>let ctx = after(now) |&gt; build_txn_context()
+<pre><code>let ctx = after(now) |&gt; build_context("Redeemer")
 </code></pre>
 </div>
       </div>
     
   
   
-      <div class="member">
-        <div class="member-name">
-          <h2 id="set_id"><pre class="hljs language-aiken">set_id(context: ScriptContext, id: TransactionId) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L107-L113"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p><strong>OPTIONAL</strong>: Set <code>ScriptContext.transaction.id</code></p>
-</div>
-      </div>
-    
-  
-  
       
-        <h2 id="Script%20Purpose" class="module-heading"><a href="#Script%20Purpose">Script Purpose</a></h3>
+        <h2 id="Script%20Info" class="module-heading"><a href="#Script%20Info">Script Info</a></h3>
       
   
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="spend"><pre class="hljs language-aiken">spend(context: ScriptContext, o_ref: OutputReference) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L118-L120"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Set the Spending ScriptPurpose <code>OutputReference</code></p>
-</div>
-      </div>
-    
   
   
       <div class="member">
         <div class="member-name">
           <h2 id="mint_assets"><pre class="hljs language-aiken">mint_assets(
-  context: ScriptContext,
+  ctx: ScriptContext,
   policy_id: PolicyId,
-  assets: Value,
+  assets: assets.Value,
 ) -&gt; ScriptContext</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L124-L134"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.215.202411/lib/tx_util/builder.ak#L63-L73"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set <code>ScriptPurpose.Mint(PolicyId)</code> = <code>policy_id</code>
-and <code>Transaction.MintedValue</code> = <code>assets</code></p>
+        <div class="rendered-markdown"><p>Set <code>Minting(policy_id)</code> to <code>ScriptContext.info</code>
+and <code>assets</code> to <code>ScriptContext.transaction.mint</code></p>
+</div>
+      </div>
+    
+  
+  
+      <div class="member">
+        <div class="member-name">
+          <h2 id="spend_utxo"><pre class="hljs language-aiken">spend_utxo(
+  ctx: ScriptContext,
+  utxo: OutputReference,
+  datum: Option&lt;Data&gt;,
+) -&gt; ScriptContext</pre></h2>
+          
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.215.202411/lib/tx_util/builder.ak#L76-L82"></a>
+          
+        </div>
+        <div class="rendered-markdown"><p>Set <code>Spending(utxo, datum)</code> to <code>ScriptContext.info</code></p>
 </div>
       </div>
     
@@ -525,14 +380,15 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
       <div class="member">
         <div class="member-name">
           <h2 id="withdraw_stake_rewards"><pre class="hljs language-aiken">withdraw_stake_rewards(
-  context: ScriptContext,
-  credential: Credential,
+  ctx: ScriptContext,
+  credential: address.Credential,
 ) -&gt; ScriptContext</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L137-L142"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.215.202411/lib/tx_util/builder.ak#L86-L98"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set the Withdrawing ScriptPurpose <code>Credential</code></p>
+        <div class="rendered-markdown"><p>Set <code>Withdrawing(credential)</code> to <code>ScriptContext.info</code>
+and <code>[Pair(credential, 0)]</code> to <code>ScriptContext.transaction.withdrawals</code></p>
 </div>
       </div>
     
@@ -540,16 +396,16 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
   
       <div class="member">
         <div class="member-name">
-          <h2 id="publish_stake"><pre class="hljs language-aiken">publish_stake(
-  context: ScriptContext,
+          <h2 id="publish_certificate"><pre class="hljs language-aiken">publish_certificate(
+  ctx: ScriptContext,
   certificate: Certificate,
-  at: Index,
+  at: collection.Index,
 ) -&gt; ScriptContext</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L145-L155"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.215.202411/lib/tx_util/builder.ak#L101-L107"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set the Publishing ScriptPurpose <code>Certificate</code> at <code>Index</code></p>
+        <div class="rendered-markdown"><p>Set <code>Publishing(at, certificate)</code> to <code>ScriptContext.info</code></p>
 </div>
       </div>
     
@@ -557,12 +413,13 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
   
       <div class="member">
         <div class="member-name">
-          <h2 id="vote_governance"><pre class="hljs language-aiken">vote_governance(context: ScriptContext, voter: Voter) -&gt; ScriptContext</pre></h2>
+          <h2 id="vote_governance"><pre class="hljs language-aiken">vote_governance(ctx: ScriptContext, voter: governance.Voter) -&gt; ScriptContext</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L158-L160"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.215.202411/lib/tx_util/builder.ak#L111-L120"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set the Voting ScriptPurpose <code>Voter</code></p>
+        <div class="rendered-markdown"><p>Set <code>Voting(voter)</code> to <code>ScriptContext.info</code>
+and <code>[Pair(voter, [])]</code> to <code>ScriptContext.transaction.votes</code></p>
 </div>
       </div>
     
@@ -570,358 +427,36 @@ and <code>Transaction.MintedValue</code> = <code>assets</code></p>
   
       <div class="member">
         <div class="member-name">
-          <h2 id="propose_governance"><pre class="hljs language-aiken">propose_governance(
-  context: ScriptContext,
+          <h2 id="propose_procedure"><pre class="hljs language-aiken">propose_procedure(
+  ctx: ScriptContext,
   proposal_procedure: ProposalProcedure,
-  at: Index,
+  at: collection.Index,
 ) -&gt; ScriptContext</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L163-L173"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.215.202411/lib/tx_util/builder.ak#L124-L137"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Set the Proposing ScriptPurpose <code>ProposalProcedure</code> at <code>Index</code></p>
+        <div class="rendered-markdown"><p>Set <code>Proposing(at, proposal_procedure)</code> to <code>ScriptContext.info</code>
+and <code>[proposal_procedure]</code> to <code>ScriptContext.transaction.proposal_procedures</code></p>
 </div>
       </div>
     
   
   
       
-        <h2 id="Sign%20Transaction" class="module-heading"><a href="#Sign%20Transaction">Sign Transaction</a></h3>
+        <h2 id="Set%20Transaction" class="module-heading"><a href="#Set%20Transaction">Set Transaction</a></h3>
       
   
   
   
       <div class="member">
         <div class="member-name">
-          <h2 id="add_signatory"><pre class="hljs language-aiken">add_signatory(context: ScriptContext, signatory: PubKeyHash) -&gt; ScriptContext</pre></h2>
+          <h2 id="set_transaction"><pre class="hljs language-aiken">set_transaction(ctx: ScriptContext, tx: Transaction) -&gt; ScriptContext</pre></h2>
           
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L178-L191"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Push <code>signatory</code> to <code>ScriptContext.transaction.extra_signatories</code></p>
-</div>
-      </div>
-    
-  
-  
-      
-        <h2 id="Add%20Reference%20Input" class="module-heading"><a href="#Add%20Reference%20Input">Add Reference Input</a></h3>
-      
-  
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="add_tx_ref_input"><pre class="hljs language-aiken">add_tx_ref_input(
-  context: ScriptContext,
-  tx_ref_in: transaction.Input,
-) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L196-L209"></a>
+      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/2.215.202411/lib/tx_util/builder.ak#L142-L144"></a>
           
         </div>
-        <div class="rendered-markdown"><p>Push <code>tx_ref_in</code> to <code>ScriptContext.transaction.reference_inputs</code></p>
-</div>
-      </div>
-    
-  
-  
-      
-        <h2 id="Add%20Transaction%20Input" class="module-heading"><a href="#Add%20Transaction%20Input">Add Transaction Input</a></h3>
-      
-  
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="add_tx_input"><pre class="hljs language-aiken">add_tx_input(context: ScriptContext, tx_in: transaction.Input) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L225-L238"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Push <code>tx_in</code> to <code>ScriptContext.transaction.inputs</code></p>
-<p>Example,</p>
-<pre><code>let tx_in = new_tx_input(...)
-    |&gt; attach_ref_script_to_tx_input(validator_hash)
-    |&gt; with_asset_of_tx_input(value)
-
-let ctx = after(now)
-    |&gt; build_txn_context()
-    |&gt; add_tx_input(tx_in)
-</code></pre>
-</div>
-      </div>
-    
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="new_tx_input"><pre class="hljs language-aiken">new_tx_input(
-  tx_hash: TxHash,
-  address: Address,
-  lovelace: Int,
-  datum: Datum,
-) -&gt; transaction.Input</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L241-L256"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Construct a transaction input.</p>
-</div>
-      </div>
-    
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="attach_ref_script_to_tx_input"><pre class="hljs language-aiken">attach_ref_script_to_tx_input(
-  input: transaction.Input,
-  ref_script: ValidatorHash,
-) -&gt; transaction.Input</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L259-L272"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Attach a reference script to a transaction input.</p>
-</div>
-      </div>
-    
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="with_asset_of_tx_input"><pre class="hljs language-aiken">with_asset_of_tx_input(
-  input: transaction.Input,
-  asset: Value,
-) -&gt; transaction.Input</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L275-L289"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Add asset(s) to a transaction input.</p>
-</div>
-      </div>
-    
-  
-  
-      
-        <h2 id="Add%20Transaction%20Output" class="module-heading"><a href="#Add%20Transaction%20Output">Add Transaction Output</a></h3>
-      
-  
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="add_tx_output"><pre class="hljs language-aiken">add_tx_output(
-  context: ScriptContext,
-  tx_out: transaction.Output,
-) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L305-L318"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Push <code>tx_out</code> to <code>ScriptContext.transaction.outputs</code></p>
-<p>Example,</p>
-<pre><code>let tx_out = new_tx_output(...)
-    |&gt; attach_ref_script_to_tx_output(validator_hash)
-    |&gt; add_asset_to_tx_output(value)
-
-let ctx = after(now)
-    |&gt; build_txn_context()
-    |&gt; add_tx_output(tx_out)
-</code></pre>
-</div>
-      </div>
-    
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="new_tx_output"><pre class="hljs language-aiken">new_tx_output(
-  address: Address,
-  lovelace: Int,
-  datum: Datum,
-) -&gt; transaction.Output</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L321-L332"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Construct a transaction output.</p>
-</div>
-      </div>
-    
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="attach_ref_script_to_tx_output"><pre class="hljs language-aiken">attach_ref_script_to_tx_output(
-  output: transaction.Output,
-  ref_script: ValidatorHash,
-) -&gt; transaction.Output</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L335-L345"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Attach a reference script to a transaction output.</p>
-</div>
-      </div>
-    
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="add_asset_to_tx_output"><pre class="hljs language-aiken">add_asset_to_tx_output(
-  output: transaction.Output,
-  asset: Value,
-) -&gt; transaction.Output</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L348-L359"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Add asset(s) to a transaction output.</p>
-</div>
-      </div>
-    
-  
-  
-      
-        <h2 id="Add%20Certificate" class="module-heading"><a href="#Add%20Certificate">Add Certificate</a></h3>
-      
-  
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="add_certificate"><pre class="hljs language-aiken">add_certificate(
-  context: ScriptContext,
-  certificate: Certificate,
-) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L364-L377"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Push <code>certificate</code> to <code>ScriptContext.transaction.certificates</code></p>
-</div>
-      </div>
-    
-  
-  
-      
-        <h2 id="Transaction%20Withdrawals" class="module-heading"><a href="#Transaction%20Withdrawals">Transaction Withdrawals</a></h3>
-      
-  
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="set_withdrawals"><pre class="hljs language-aiken">set_withdrawals(
-  context: ScriptContext,
-  withdrawals: Pairs&lt;Credential, Lovelace&gt;,
-) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L382-L391"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Set <code>withdrawals</code> to <code>ScriptContext.transaction.withdrawals</code></p>
-</div>
-      </div>
-    
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="insert_withdrawal"><pre class="hljs language-aiken">insert_withdrawal(
-  context: ScriptContext,
-  withdrawal_key: Credential,
-  withdrawal_value: Lovelace,
-  withdrawal_compare: fn(Credential, Credential) -&gt; Ordering,
-) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L394-L413"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Insert <code>withdrawal</code> to <code>ScriptContext.transaction.withdrawals</code></p>
-</div>
-      </div>
-    
-  
-  
-      
-        <h2 id="Transaction%20Redeemers" class="module-heading"><a href="#Transaction%20Redeemers">Transaction Redeemers</a></h3>
-      
-  
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="set_redeemers"><pre class="hljs language-aiken">set_redeemers(
-  context: ScriptContext,
-  redeemers: Pairs&lt;ScriptPurpose, Redeemer&gt;,
-) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L537-L546"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Set <code>redeemers</code> to <code>ScriptContext.transaction.redeemers</code></p>
-</div>
-      </div>
-    
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="insert_redeemer"><pre class="hljs language-aiken">insert_redeemer(
-  context: ScriptContext,
-  redeemer_key: ScriptPurpose,
-  redeemer_value: Redeemer,
-  redeemer_compare: fn(ScriptPurpose, ScriptPurpose) -&gt; Ordering,
-) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L549-L568"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Insert <code>redeemer</code> to <code>ScriptContext.transaction.redeemers</code></p>
-</div>
-      </div>
-    
-  
-  
-      
-        <h2 id="Transaction%20Datums" class="module-heading"><a href="#Transaction%20Datums">Transaction Datums</a></h3>
-      
-  
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="set_datums"><pre class="hljs language-aiken">set_datums(
-  context: ScriptContext,
-  datums: Dict&lt;ByteArray, Data&gt;,
-) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L689-L698"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Set <code>datums</code> from <code>ScriptContext.transaction.datums</code></p>
-</div>
-      </div>
-    
-  
-  
-      
-        <h2 id="Transaction%20Fees" class="module-heading"><a href="#Transaction%20Fees">Transaction Fees</a></h3>
-      
-  
-  
-  
-      <div class="member">
-        <div class="member-name">
-          <h2 id="set_fee"><pre class="hljs language-aiken">set_fee(context: ScriptContext, fee: Lovelace) -&gt; ScriptContext</pre></h2>
-          
-      	    <a class="member-source" alt="view source" title="view source" target="_blank" href="https://github.com/aiken-extra/tx_util/blob/1.210.202409/lib/tx_util/builder.ak#L842-L848"></a>
-          
-        </div>
-        <div class="rendered-markdown"><p>Set <code>ScriptContext.transaction.fee</code></p>
+        <div class="rendered-markdown"><p>Set <code>tx</code> to <code>ScriptContext.transaction</code></p>
 </div>
       </div>
     
@@ -1004,8 +539,8 @@ let ctx = after(now)
       </defs>
     </svg>
 
-    <script src="../js/highlight.min.js?v=1.1.2"></script>
-    <script src="../js/highlightjs-aiken.js?v=1.1.2"></script>
+    <script src="../js/highlight.min.js?v=1.1.5"></script>
+    <script src="../js/highlightjs-aiken.js?v=1.1.5"></script>
     <script>
       document.querySelectorAll("pre code").forEach((elem) => {
         if (elem.className === "") {
@@ -1047,10 +582,10 @@ let ctx = after(now)
     </script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
-    <script src="../js/lunr.min.js?v=1.1.2"></script>
-    <script src="../js/index.js?v=1726368001"></script>
+    <script src="../js/lunr.min.js?v=1.1.5"></script>
+    <script src="../js/index.js?v=1731035386"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="../search-data.js?v=1726368001"></script>
+    <script src="../search-data.js?v=1731035386"></script>
     <script>
       void function() {
         if (typeof tippy !== "undefined") {
