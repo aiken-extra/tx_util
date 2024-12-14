@@ -48,7 +48,7 @@
 ////   trace @"Tx": tx
 ////
 ////   // Assert:
-////   vallidator.validate.spend(None, Void, output_reference, tx)
+////   validator.validate.spend(None, Void, output_reference, tx)
 //// }
 //// ```
 
