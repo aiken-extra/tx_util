@@ -1,4 +1,4 @@
-//// Usage example,
+//// Usage example:
 //// ```
 //// test negative_case() fail {
 ////   // Arrange:

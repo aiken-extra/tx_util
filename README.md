@@ -1,13 +1,13 @@
 # tx_util
 
-A utility library to help constructing `Transaction` and `ScriptContext`, useful for testing.
+A utility library to help constructing `Transaction`, `ScriptContext`, and mock hashes. Useful for testing.
 
-| ℹ️  | Package info    | aiken-extra/tx_util v2.220.202412 | 🐞  |
+| ℹ️  | Package info    | aiken-extra/tx_util v3.220.202501 | 🐞  |
 | --- | --------------- | --------------------------------- | --- |
 | 🟢  | **Depends on**  | **aiken-lang/stdlib v2.2.0**      | ✔️  |
 | 🟢  | **Tested with** | **aiken v1.1.9**                  | ✔️  |
 
-## Usage Example
+## Usage Examples
 
 ### `Transaction`
 
@@ -64,4 +64,35 @@ test validate_something_else() fail {
     |> set_transaction(tx)
     |> validator.validate.else
 }
+```
+
+### Mock Hashes
+
+```gleam
+use tx_util/mock
+```
+
+```gleam
+mock_address(from_payment: 1, from_stake: 2)
+mock_address("A", "B")    // Address with both Payment and Staking part
+mock_address(True, False) // Address with only Payment part
+
+mock_verification_key_credential(from: 34) // VerificationKey(#"00000000000000000000000000000000000000000000000000000034")
+mock_script_credential(from: 567)          // Script(#"00000000000000000000000000000000000000000000000000000567")
+
+mock_verification_key_hash(from: 89) // #"00000000000000000000000000000000000000000000000000000089"
+mock_script_hash(from: 10)           // #"00000000000000000000000000000000000000000000000000000010"
+
+mock_asset(1112, asset_name: "NFT", quantity: 1) // Value(#"00..............................001112", "NFT", 1)
+mock_policy_id(1112)                             // #"00000000000000000000000000000000000000000000000000001112"
+
+mock_output_reference(131415, output_index: 16) // OutputReference(#"00..............................00131415", 16)
+mock_transaction_id(131415)                     // #"0000000000000000000000000000000000000000000000000000000000131415"
+
+mock_blake2b_224(from: 224) // #"00000000000000000000000000000000000000000000000000000224"
+mock_blake2b_256(from: 256) // #"0000000000000000000000000000000000000000000000000000000000000256"
+
+mock_hash_from_bytearray(#"af", size: 4) // #"000000af"
+mock_hash_from_int(123, size: 3)         // #"000123"
+mock_hash(1, size: 2)                    // #"0001"
 ```

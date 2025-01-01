@@ -120,13 +120,13 @@
       <h2>
         <a href="./">tx_util</a>
         <span id="project-version">
-          <span>2.220.202412 </span>
+          <span>3.220.202412 </span>
         </span>
         <script>
           "use strict";
 
           if ("undefined" !== typeof versionNodes) {
-            const currentVersion = "v2.220.202412";
+            const currentVersion = "v3.220.202412";
             if (! versionNodes.find(element => element.version === currentVersion)) {
               versionNodes.unshift({ version: currentVersion, url: "#" });
             }
@@ -192,17 +192,29 @@
         <ul>
         
 	  
+	    <li data-indent="0"><span>tx_util</span></li>
+	  
+        
+	  
 	    
-	      <li data-indent="0"><a href="./tx_util/builder.html">
-	      tx_util/builder
+	      <li data-indent="1"><a href="./tx_util/builder.html">
+	      builder
 	      </a></li>
 	    
 	  
         
 	  
 	    
-	      <li data-indent="1"><a href="./tx_util/builder/txn.html">
+	      <li data-indent="2"><a href="./tx_util/builder/txn.html">
 	      txn
+	      </a></li>
+	    
+	  
+        
+	  
+	    
+	      <li data-indent="1"><a href="./tx_util/mock.html">
+	      mock
 	      </a></li>
 	    
 	  
@@ -213,12 +225,12 @@
       <main class="content">
         
 <h1>tx_util</h1>
-<p>A utility library to help constructing <code>Transaction</code> and <code>ScriptContext</code>, useful for testing.</p>
-<table><thead><tr><th>ℹ️</th><th>Package info</th><th>aiken-extra/tx_util v2.220.202412</th><th>🐞</th></tr></thead><tbody>
+<p>A utility library to help constructing <code>Transaction</code>, <code>ScriptContext</code>, and mock hashes. Useful for testing.</p>
+<table><thead><tr><th>ℹ️</th><th>Package info</th><th>aiken-extra/tx_util v3.220.202412</th><th>🐞</th></tr></thead><tbody>
 <tr><td>🟢</td><td><strong>Depends on</strong></td><td><strong>aiken-lang/stdlib v2.2.0</strong></td><td>✔️</td></tr>
 <tr><td>🟢</td><td><strong>Tested with</strong></td><td><strong>aiken v1.1.9</strong></td><td>✔️</td></tr>
 </tbody></table>
-<h2>Usage Example</h2>
+<h2>Usage Examples</h2>
 <h3><code>Transaction</code></h3>
 <pre><code class="language-aiken">use tx_util/builder/txn.{
     add_tx_ref_input,
@@ -265,6 +277,32 @@
     |&gt; set_transaction(tx)
     |&gt; validator.validate.else
 }
+</code></pre>
+<h3>Mock Hashes</h3>
+<pre><code class="language-aiken">use tx_util/mock
+</code></pre>
+<pre><code class="language-aiken">mock_address(from_payment: 1, from_stake: 2)
+mock_address("A", "B")    // Address with both Payment and Staking part
+mock_address(True, False) // Address with only Payment part
+
+mock_verification_key_credential(from: 34) // VerificationKey(#"00000000000000000000000000000000000000000000000000000034")
+mock_script_credential(from: 567)          // Script(#"00000000000000000000000000000000000000000000000000000567")
+
+mock_verification_key_hash(from: 89) // #"00000000000000000000000000000000000000000000000000000089"
+mock_script_hash(from: 10)           // #"00000000000000000000000000000000000000000000000000000010"
+
+mock_asset(1112, asset_name: "NFT", quantity: 1) // Value(#"00..............................001112", "NFT", 1)
+mock_policy_id(1112)                             // #"00000000000000000000000000000000000000000000000000001112"
+
+mock_output_reference(131415, output_index: 16) // OutputReference(#"00..............................00131415", 16)
+mock_transaction_id(131415)                     // #"0000000000000000000000000000000000000000000000000000000000131415"
+
+mock_blake2b_224(from: 224) // #"00000000000000000000000000000000000000000000000000000224"
+mock_blake2b_256(from: 256) // #"0000000000000000000000000000000000000000000000000000000000000256"
+
+mock_hash_from_bytearray(#"af", size: 4) // #"000000af"
+mock_hash_from_int(123, size: 3)         // #"000123"
+mock_hash(1, size: 2)                    // #"0001"
 </code></pre>
 
 
@@ -387,9 +425,9 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="./js/lunr.min.js?v=1.1.9"></script>
-    <script src="./js/index.js?v=1734150752"></script>
+    <script src="./js/index.js?v=1735208276"></script>
     <!-- Load the search index using JSONP to avoid CORS issues -->
-    <script src="./search-data.js?v=1734150752"></script>
+    <script src="./search-data.js?v=1735208276"></script>
     <script>
       void function() {
         if (typeof tippy !== "undefined") {
